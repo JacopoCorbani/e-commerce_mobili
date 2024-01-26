@@ -1,1 +1,4 @@
-# e-commerce_mobili
+Si richiede di progettare un sito di e-commerce per la vendita di mobili; il sito deve consentire la registrazione dei clienti, la creazione di un carrello di prodotti e successiva eventuale registrazione dell'ordine; ogni prodotto presente sul sito deve appartenere ad una categoria e può presentare accessori opzionali.
+Nella prima fase implementare solo la parte pubblica (che consente la visualizzazione e e l'acquisto dei prodotti);  utilizzare HTML5, javascript e framework Bootstrap per la programmazione lato client, linguaggio PHP per la programmazione lato server e DBMS MySQL per la gestione dei dati.
+
+Il progetto comprensivo di analisi dei requisiti, progettazione concettuale e logica, SQL per la creazione de DB e codice deve essere caricato sul proprio account GIT e su classroom verrà consegnato l'indirizzo del repository.
