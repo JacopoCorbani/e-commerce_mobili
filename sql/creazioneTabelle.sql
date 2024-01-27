@@ -28,12 +28,19 @@ CREATE TABLE if NOT EXISTS accessori(
 		
 	FOREIGN KEY (id_prodotto) REFERENCES prodotti(id)
 );
-CREATE TABLE if NOT EXISTS immagini(
+CREATE TABLE if NOT EXISTS immagini_prodotti(
 	id INT PRIMARY KEY AUTO_INCREMENT,
 	path_immagine VARCHAR(255) NOT NULL,
 	id_prodotti INT NOT NULL,
 	
 	FOREIGN KEY (id_prodotti) REFERENCES prodotti(id)
+);
+CREATE TABLE if NOT EXISTS immagini_categorie(
+	id INT PRIMARY KEY AUTO_INCREMENT,
+	path_immagine VARCHAR(255) NOT NULL,
+	id_categoria INT NOT NULL,
+	
+	FOREIGN KEY (id_categoria) REFERENCES categoria(id)
 );
 /*
 RUOLO(PK: ID; RUOLO)
@@ -92,7 +99,7 @@ CREATE TABLE if NOT EXISTS dettaglio_carrello_prodotti(
 CREATE TABLE if NOT EXISTS dettaglio_carrello_accessori(
 	id INT AUTO_INCREMENT PRIMARY KEY,
 	id_accessorio INT NOT NULL,
-	quantita_prodotto INT NOT NULL,
+	quantita_accessorio INT NOT NULL,
 	id_carrello INT NOT NULL,
 	
 	FOREIGN KEY (id_accessorio) REFERENCES accessori(id),
