@@ -1,4 +1,5 @@
 <?php 
+    include '../classi/classeProdotto.php';
     class CategoriaCollection {
         private $categorie = [];
     

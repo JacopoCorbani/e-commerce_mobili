@@ -82,28 +82,24 @@ CARRELLO(PK:ID; FK: ID_UTENTE)
 DETTAGLIO_CARRELLO_PRODOTTI(PK: ID; FK: ID_PRODOTTO; QUANTITA'_PRODOTTO; FK: CARRELLO)
 DETTAGLIO_CARRELLO_ACCESSORI(PK: ID; FK: ID_ACCESSORIO; QUANTITA'_ACCESSORIO; FK: CARRELLO)
 */
-CREATE TABLE if NOT EXISTS carrello(
-	id INT AUTO_INCREMENT PRIMARY KEY,
-	id_utente INT NOT NULL,
-	FOREIGN KEY (id_utente) REFERENCES utente(id)
-);
-CREATE TABLE if NOT EXISTS dettaglio_carrello_prodotti(
+CREATE TABLE if NOT EXISTS carrello_prodotti(
 	id INT AUTO_INCREMENT PRIMARY KEY,
 	id_prodotto INT NOT NULL,
 	quantita_prodotto INT NOT NULL,
-	id_carrello INT NOT NULL,
+	id_utente INT NOT NULL,
 	
-	FOREIGN KEY (id_prodotto) REFERENCES prodotti(id),
-	FOREIGN KEY (id_carrello) REFERENCES carrello(id)
+	FOREIGN KEY (id_utente) REFERENCES utente(id),	
+	FOREIGN KEY (id_prodotto) REFERENCES prodotti(id)
 );
-CREATE TABLE if NOT EXISTS dettaglio_carrello_accessori(
+CREATE TABLE if NOT EXISTS carrello_accessori(
 	id INT AUTO_INCREMENT PRIMARY KEY,
 	id_accessorio INT NOT NULL,
 	quantita_accessorio INT NOT NULL,
 	id_carrello INT NOT NULL,
+	id_utente INT NOT NULL,
 	
-	FOREIGN KEY (id_accessorio) REFERENCES accessori(id),
-	FOREIGN KEY (id_carrello) REFERENCES carrello(id)
+	FOREIGN KEY (id_utente) REFERENCES utente(id),	
+	FOREIGN KEY (id_accessorio) REFERENCES accessori(id)
 );
 /*
 STUTUS(PK:ID; STATUS)

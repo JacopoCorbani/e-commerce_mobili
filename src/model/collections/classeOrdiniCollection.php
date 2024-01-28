@@ -1,4 +1,5 @@
 <?php 
+    include '../classi/classeOrdine.php';
     class StatusOrdineCollection {
         private $statusOrdini = [];
     

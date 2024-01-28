@@ -37,17 +37,4 @@
             $this->id_utente = $id_utente;
         }
     }
-    class Credenziale {
-        public $id;
-        public $nome_utente;
-        public $password_utente;
-        public $id_utente;
-
-        public function __construct($id, $nome_utente, $password_utente, $id_utente) {
-            $this->id = $id;
-            $this->nome_utente = $nome_utente;
-            $this->password_utente = $password_utente;
-            $this->id_utente = $id_utente;
-        }
-    }    
 ?>
