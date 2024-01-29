@@ -1,4 +1,5 @@
 <?php 
+    session_start();
     function controllaPassword($nome_utente, $password_utente){
         include '../connessione.php';
 
@@ -14,6 +15,8 @@
         $stmt->bind_param("ss", $nome_utente, $password_criptata);
         $stmt->execute();
         $result = $stmt->get_result();
+
+        $conn->close();
 
         if ($result->num_rows > 0) {
             while($ut = $result->fetch_assoc()){
