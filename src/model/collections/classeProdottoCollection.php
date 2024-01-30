@@ -1,5 +1,6 @@
 <?php 
-    include '../classi/classeProdotto.php';
+    include $_SERVER["DOCUMENT_ROOT"] . '/PHP/e-commerce_mobili/src/model/classi/classeProdotto.php';
+
     class CategoriaCollection {
         private $categorie = [];
     
@@ -14,23 +15,12 @@
     class ProdottoCollection {
         private $prodotti = [];
     
-        public function aggiungiProdotto(Prodotto $prodotto) {
+        public function aggiungiProdotto(Prodotti $prodotto) {
             $this->prodotti[] = $prodotto;
         }
     
         public function getProdotti() {
             return $this->prodotti;
-        }
-    }
-    class AccessorioCollection {
-        private $accessori = [];
-    
-        public function aggiungiAccessorio(Accessorio $accessorio) {
-            $this->accessori[] = $accessorio;
-        }
-    
-        public function getAccessori() {
-            return $this->accessori;
         }
     }
     class Immagine_ProdottoCollection {

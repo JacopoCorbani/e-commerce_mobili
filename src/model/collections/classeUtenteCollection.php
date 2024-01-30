@@ -1,5 +1,5 @@
 <?php 
-    include '../classi/classeUtente.php';
+    include $_SERVER["DOCUMENT_ROOT"] . '/PHP/e-commerce_mobili/src/model/classi/classeUtente.php';
 
     class RuoloCollection{
         private $ruoli = [];

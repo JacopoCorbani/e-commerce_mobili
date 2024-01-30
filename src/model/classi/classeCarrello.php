@@ -1,29 +1,100 @@
-<?php 
-    class CarrelloProdotto {
-        public $id;
-        public $id_prodotto;
-        public $quantita_prodotto;
-        public $id_utente;
-    
-        public function __construct($id, $id_prodotto, $quantita_prodotto, $id_utente) {
-            $this->id = $id;
-            $this->id_prodotto = $id_prodotto;
-            $this->quantita_prodotto = $quantita_prodotto;
-            $this->id_utente = $id_utente;
-        }
+<?php
+class Carrello
+{
+    private $id;
+    private $idUtente;
+
+    public function __construct($id, $idUtente)
+    {
+        $this->id = $id;
+        $this->idUtente = $idUtente;
     }
-    class CarrelloAccessorio {
-        public $id;
-        public $id_accessorio;
-        public $quantita_accessorio;
-        public $id_utente;
-    
-        public function __construct($id, $id_accessorio, $quantita_accessorio, $id_utente) {
-            $this->id = $id;
-            $this->id_accessorio = $id_accessorio;
-            $this->quantita_accessorio = $quantita_accessorio;
-            $this->id_utente = $id_utente;
-        }
+
+    public function getId()
+    {
+        return $this->id;
     }
-    
-?>
+
+    public function setId($id): self
+    {
+        $this->id = $id;
+
+        return $this;
+    }
+
+    public function getIdUtente()
+    {
+        return $this->idUtente;
+    }
+
+    public function setIdUtente($idUtente): self
+    {
+        $this->idUtente = $idUtente;
+
+        return $this;
+    }
+}
+
+class DettaglioCarrello
+{
+    private $id;
+    private $idCarrello;
+    private $idProdotto;
+    private $quantitaProdotto;
+
+    public function __construct($id, $idCarrello, $idProdotto, $quantitaProdotto)
+    {
+        $this->id = $id;
+        $this->idCarrello = $idCarrello;
+        $this->idProdotto = $idProdotto;
+        $this->quantitaProdotto = $quantitaProdotto;
+    }
+
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    public function setId($id): self
+    {
+        $this->id = $id;
+
+        return $this;
+    }
+
+    public function getIdCarrello()
+    {
+        return $this->idCarrello;
+    }
+
+    public function setIdCarrello($idCarrello): self
+    {
+        $this->idCarrello = $idCarrello;
+
+        return $this;
+    }
+
+    public function getIdProdotto()
+    {
+        return $this->idProdotto;
+    }
+
+    public function setIdProdotto($idProdotto): self
+    {
+        $this->idProdotto = $idProdotto;
+
+        return $this;
+    }
+
+    public function getQuantitaProdotto()
+    {
+        return $this->quantitaProdotto;
+    }
+
+    public function setQuantitaProdotto($quantitaProdotto): self
+    {
+        $this->quantitaProdotto = $quantitaProdotto;
+
+        return $this;
+    }
+}

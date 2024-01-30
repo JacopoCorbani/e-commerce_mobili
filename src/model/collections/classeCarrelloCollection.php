@@ -1,25 +1,14 @@
 <?php 
-    include '../classi/classeCarrello.php';
-    class CarrelloProdottoCollection {
-        private $dettagliCarrelloProdotti = [];
+    include $_SERVER["DOCUMENT_ROOT"] . '/PHP/e-commerce_mobili/src/model/classi/classeCarrello.php';
+    class DettaglioCarrelloCollection {
+        private $dettagliCarrello = [];
     
-        public function aggiungiCarrelloProdotto(CarrelloProdotto $dettaglio) {
-            $this->dettagliCarrelloProdotti[] = $dettaglio;
+        public function aggiungiDettaglioCarrello(DettaglioCarrello $dettaglio) {
+            $this->dettagliCarrello[] = $dettaglio;
         }
     
-        public function getDettagliCarrelloProdotti() {
-            return $this->dettagliCarrelloProdotti;
-        }
-    }
-    class CarrelloAccessorioCollection {
-        private $dettagliCarrelloAccessori = [];
-    
-        public function aggiungiCarrelloAccessorio(CarrelloAccessorio $dettaglio) {
-            $this->dettagliCarrelloAccessori[] = $dettaglio;
-        }
-    
-        public function getDettagliCarrelloAccessori() {
-            return $this->dettagliCarrelloAccessori;
+        public function getDettaglioCarrello() {
+            return $this->dettagliCarrello;
         }
     }
 ?>

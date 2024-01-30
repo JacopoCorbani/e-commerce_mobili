@@ -1,5 +1,5 @@
 <?php 
-    include '../classi/classeOrdine.php';
+    include $_SERVER["DOCUMENT_ROOT"] . '/PHP/e-commerce_mobili/src/model/classi/classeOrdine.php';
     class StatusOrdineCollection {
         private $statusOrdini = [];
     
@@ -24,10 +24,10 @@
         }
     }
     
-    class DettaglioOrdineProdottoCollection {
+    class DettaglioOrdineCollection {
         private $dettagliOrdineProdotti = [];
     
-        public function aggiungiDettaglioOrdineProdotto(DettaglioOrdineProdotto $dettaglio) {
+        public function aggiungiDettaglioOrdineProdotto(DettaglioOrdine $dettaglio) {
             $this->dettagliOrdineProdotti[] = $dettaglio;
         }
     
@@ -35,17 +35,4 @@
             return $this->dettagliOrdineProdotti;
         }
     }
-    
-    class DettaglioOrdineAccessorioCollection {
-        private $dettagliOrdineAccessori = [];
-    
-        public function aggiungiDettaglioOrdineAccessorio(DettaglioOrdineAccessorio $dettaglio) {
-            $this->dettagliOrdineAccessori[] = $dettaglio;
-        }
-    
-        public function getDettagliOrdineAccessori() {
-            return $this->dettagliOrdineAccessori;
-        }
-    }
-    
 ?>
