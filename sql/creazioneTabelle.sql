@@ -50,6 +50,20 @@ CREATE TABLE if NOT EXISTS immagini_categorie(
 	
 	FOREIGN KEY (id_categoria) REFERENCES categoria(id)
 );
+INSERT INTO immagini_categorie(immagini_categorie.path_immagine, immagini_categorie.id_categoria) VALUES 
+	('divano.jpg', 1),
+	('letto.jpg', 2),
+	('illuminazione.jpg', 3),
+	('tavolo.jpg', 4),
+	('sedie.jpeg', 5),
+	('armadio.jpg', 6),
+	('poltrona.jpg', 7),
+	('credenza.jpeg', 8),
+	('libreria.jpg', 9),
+	('scaffali.jpg', 10),
+	('cassettiera.jpg', 11),
+	('mobili_bagno.jpg', 12),
+	('mobili_giardino.jpg', 13);
 /*
 RUOLO(PK: ID; RUOLO)
 UTENTE(PK: ID; NOME; COGNOME; FK: ID_RUOLO)
@@ -60,6 +74,7 @@ CREATE TABLE if NOT EXISTS ruolo(
 	id INT PRIMARY KEY AUTO_INCREMENT,
 	ruolo VARCHAR(20) NOT NULL
 );
+INSERT INTO ruolo(ruolo) VALUES ('USER'), ('ADMIN'), ('DELETED');
 CREATE TABLE if NOT EXISTS utente(
 	id INT PRIMARY KEY AUTO_INCREMENT,
 	nome VARCHAR(50) NOT NULL,
@@ -130,3 +145,8 @@ CREATE TABLE if NOT EXISTS dettaglio_ordine(
 	FOREIGN KEY (id_prodotto) REFERENCES prodotti(id),
 	FOREIGN KEY (id_ordine) REFERENCES ordine(id)
 );
+
+/*
+INSERT INTO utente (nome, cognome, id_ruolo) VALUES ('Jacopo', 'Corbani', 2);
+INSERT INTO credenziali (nome_utente, password_utente, id_utente) VALUES ('jacopocorbani', '$2y$10$EmSbNtztnB7zmUD3ijYob.cq8h5sQbbtZInA1DzWSZYUw.ctKMhv2', 1);
+*/

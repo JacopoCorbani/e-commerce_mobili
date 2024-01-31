@@ -35,7 +35,7 @@ function controllaPassword($nome_utente, $password_utente)
     }
     echo $id_utente . ' ' . $password_criptata . '-';
     if (password_verify($password_utente, $password_criptata)) {
-        $query = "SELECT utente.nome, utente.cognome, utente.id_ruolo FROM utente INNER JOIN credenziali ON utente.id = credenziali.id_utente WHERE utente.id = $id_utente";
+        $query = "SELECT utente.nome, utente.cognome, ruolo.ruolo FROM utente INNER JOIN credenziali ON utente.id = credenziali.id_utente INNER JOIN ruolo ON utente.id_ruolo = ruolo.id WHERE utente.id = $id_utente";
         $risultato = $conn->query($query);
         if ($risultato->num_rows > 0) {
             var_dump($risultato);
@@ -43,7 +43,7 @@ function controllaPassword($nome_utente, $password_utente)
                 var_dump($ut);
                 $_SESSION["ID_UTENTE"] = $id_utente;
                 $_SESSION["NOME_COGNOME"] = $ut["nome"] . ' ' . $ut["cognome"];
-                $_SESSION["RUOLO"] = $ut["id_ruolo"];
+                $_SESSION["RUOLO"] = $ut["ruolo"];
             }
         }
     } else {
@@ -107,7 +107,7 @@ function getImmagini_categorie()
     $risultato = $conn->query($query);
     if ($risultato->num_rows > 0) {
         while ($imm = $risultato->fetch_assoc()) {
-            $immagini_categoria->aggiungiImmagine(new Immagine_Categoria($imm["id"], $imm["path_immagine"], $imm["id_prodotti"]));
+            $immagini_categoria->aggiungiImmagine(new Immagine_Categoria($imm["id"], $imm["path_immagine"], $imm["id_categoria"]));
         }
     }
     return $immagini_categoria;
