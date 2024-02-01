@@ -13,7 +13,7 @@
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/css/bootstrap.min.css">
         <link rel="stylesheet" href="https://cdn.datatables.net/1.13.7/css/dataTables.bootstrap5.min.css">
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-        <title>Visualizza mobili per categoria</title>
+        <title>Cerca </title>
     </head>
 
     <body>
@@ -28,7 +28,7 @@
                     </ul>
                     <!-- da integrare nel condice per farlo funzionare -->
                     <form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3" role="search">
-                        <input type="search" class="form-control" placeholder="Cerca categoria" aria-label="Search">
+                        <input type="search" class="form-control" placeholder="Cerca mobile" aria-label="Search">
                     </form>
                     <div class="dropdown text-end">
                         <?php 
@@ -61,31 +61,47 @@
         <main>
 
             <div class="album py-5 bg-body-tertiary">
-                <form action="visualizzaPerCategoria.php" method="post">
+                <form action="dettaglioMobile.php" method="post">
                     <div class="container">
         
                         <div class="row row-cols-1 row-cols-sm-2 row-cols-md-4 g-3">
                             <?php 
-                                $check = false;
-                                $id_cat = $_GET["categoria"];
-                                if($id_cat == "null"){
-                                    $check = true;
+                                $tuttiMobili = false;
+                                $id_cat = "";
+                                if(isset($_GET["categoria"]) && $_GET["categoria"] !== "null"){
+                                    $id_cat = $_GET["categoria"];
+                                }else{
+                                    $tuttiMobili = true;
                                 }
-                                $listaCategorie = getCategorie()->getCategorie();
                                 $listaProdotti = getProdotti()->getProdotti();
                                 $listaImmagini = getImmagini_prodotti()->getImmagini();
                                 //da modificare
-                                for ($i=0; $i < count($listaCategorie); $i++) {
-                                    $id = $listaCategorie[$i]->getId();
-                                    if($listaCategorie[$i]->getId() == $id_cat || $check){
-                                        $path = $immaginiCategorie[$j]->getpath_immagine();
+                                for ($i=0; $i < count($listaProdotti); $i++) {
+                                    $id = $listaProdotti[$i]->getId();
+                                    $nome = $listaProdotti[$i]->getNome();
+                                    $descrizione = $listaProdotti[$i]->getDescrizione();
+                                    $prezzo = $listaProdotti[$i]->getPrezzo();
+                                    if($listaProdotti[$i]->getIdCategoria() == $id_cat || $tuttiMobili){
+                                        $path = "";
+                                        // for ($j=0; $j < count($listaImmagini); $j++) { 
+                                        //     if($listaImmagini[$i]->getId_prodotti() == $id){
+                                        //         $path = $listaImmagini[$i]->getpath_immagine();
+                                        //     }
+                                        // }
+
                                         echo    "<div class='col'>
                                                     <div class='card shadow-sm'>
-                                                        <img src='../immagini/categorie/$path' alt='immagine categoria'>
+                                                        <img src='../immagini/product_img/$path' alt='immagine prodotto'>
                                                         <div class='card-body'>
-                                                            <p class='card-text'>$cat</p>
+                                                            <p class='card-text'>
+                                                                $nome
+                                                            </p>
                                                             <div class='d-flex justify-content-between align-items-center mt-auto'>
-                                                                <button type='submit' class='btn btn-sm btn-outline-secondary' name='categoria' value='$id'>Seleziona</button>
+                                                                <div class='btn-group'>
+                                                                    <button type='submit' class='btn btn-sm btn-outline-secondary' name='mobile' value='$id'>Visualizza</button>
+                                                                    <button type='button' class='btn btn-sm btn-outline-secondary' onclick='aggiungiAlCarrello('$id')'>Aggiungi al carrello</button>
+                                                                </div>
+                                                                <small class='text-body-secondary'>$prezzo €</small>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -93,9 +109,6 @@
                                     }
                                 }
                             ?>
-                        </div>
-                        <div style="text-align: center">
-                            <button type='submit' class='btn btn-sm btn-outline-primary' name='categoria' value='null'>Visualizza tutti i mobili</button>
                         </div>
                     </div>
                 </form>
@@ -113,5 +126,10 @@
                 <p class="mb-1">ecommerce CasaArredo &copy;</p>
             </div>
         </footer>
+        <script>
+            function aggiungiAlCarrello(id_mobile){
+
+            }
+        </script>
     </body>
 </html>

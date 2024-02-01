@@ -55,7 +55,7 @@ INSERT INTO immagini_categorie(immagini_categorie.path_immagine, immagini_catego
 	('letto.jpg', 2),
 	('illuminazione.jpg', 3),
 	('tavolo.jpg', 4),
-	('sedie.jpeg', 5),
+	('sedie.jpg', 5),
 	('armadio.jpg', 6),
 	('poltrona.jpg', 7),
 	('credenza.jpeg', 8),
