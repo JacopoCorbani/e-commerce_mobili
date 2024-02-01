@@ -13,7 +13,22 @@
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/css/bootstrap.min.css">
         <link rel="stylesheet" href="https://cdn.datatables.net/1.13.7/css/dataTables.bootstrap5.min.css">
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-        <title>Cerca </title>
+        <title>Visualizza mobili per categoria </title>
+        <style>
+            .card {
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+        }
+        .card img {
+            flex-shrink: 0;
+            max-height: 100%;
+            object-fit: cover;
+        }
+        .card-body {
+            margin-top: auto;
+        }
+        </style>
     </head>
 
     <body>
@@ -61,7 +76,7 @@
         <main>
 
             <div class="album py-5 bg-body-tertiary">
-                <form action="dettaglioMobile.php" method="post">
+                <form action="dettaglioMobile.php" method="get">
                     <div class="container">
         
                         <div class="row row-cols-1 row-cols-sm-2 row-cols-md-4 g-3">
@@ -81,17 +96,17 @@
                                     $nome = $listaProdotti[$i]->getNome();
                                     $descrizione = $listaProdotti[$i]->getDescrizione();
                                     $prezzo = $listaProdotti[$i]->getPrezzo();
-                                    if($listaProdotti[$i]->getIdCategoria() == $id_cat || $tuttiMobili){
+                                    if(($listaProdotti[$i]->getIdCategoria() == $id_cat || $tuttiMobili)  && $listaProdotti[$i]->getIdProdotto() == ""){
                                         $path = "";
-                                        // for ($j=0; $j < count($listaImmagini); $j++) { 
-                                        //     if($listaImmagini[$i]->getId_prodotti() == $id){
-                                        //         $path = $listaImmagini[$i]->getpath_immagine();
-                                        //     }
-                                        // }
+                                        for ($j=0; $j < count($listaImmagini); $j++) { 
+                                            if($listaImmagini[$j]->getId_prodotti() == $id){
+                                                $path = $listaImmagini[$j]->getpath_immagine();
+                                            }
+                                        }
 
                                         echo    "<div class='col'>
                                                     <div class='card shadow-sm'>
-                                                        <img src='../immagini/product_img/$path' alt='immagine prodotto'>
+                                                        <img src='../immagini/prodotti/$path' alt='immagine prodotto'>
                                                         <div class='card-body'>
                                                             <p class='card-text'>
                                                                 $nome
@@ -99,7 +114,6 @@
                                                             <div class='d-flex justify-content-between align-items-center mt-auto'>
                                                                 <div class='btn-group'>
                                                                     <button type='submit' class='btn btn-sm btn-outline-secondary' name='mobile' value='$id'>Visualizza</button>
-                                                                    <button type='button' class='btn btn-sm btn-outline-secondary' onclick='aggiungiAlCarrello('$id')'>Aggiungi al carrello</button>
                                                                 </div>
                                                                 <small class='text-body-secondary'>$prezzo €</small>
                                                             </div>
@@ -128,7 +142,7 @@
         </footer>
         <script>
             function aggiungiAlCarrello(id_mobile){
-
+                //funzione ajax che aggiunge un mobile al carrello
             }
         </script>
     </body>

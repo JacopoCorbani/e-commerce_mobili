@@ -27,14 +27,13 @@ INSERT INTO categoria(categoria.categoria) VALUES
 	
 CREATE TABLE if NOT EXISTS prodotti(
 	id INT AUTO_INCREMENT PRIMARY KEY,
-	nome VARCHAR(20) NOT NULL,
-	descrizione VARCHAR(250) NOT NULL,
+	nome VARCHAR(30) NOT NULL,
+	descrizione VARCHAR(250),
 	prezzo DOUBLE NOT NULL,
-	id_categoria INT NOT NULL,
+	id_categoria INT,
 	id_prodotto INT,
 	FOREIGN KEY (id_categoria) REFERENCES categoria(id),
 	FOREIGN KEY (id_prodotto) REFERENCES prodotti(id)
-
 );
 CREATE TABLE if NOT EXISTS immagini_prodotti(
 	id INT PRIMARY KEY AUTO_INCREMENT,
