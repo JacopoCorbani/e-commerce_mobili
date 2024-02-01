@@ -2,7 +2,7 @@
     error_reporting(E_ALL & ~E_NOTICE);
     session_start();
     include '../model/letturaDB/letturaDB.php';
-    if(!isset($_GET["mobile"])){
+    if(!isset($_POST["mobile"])){
         header("Location: ./index.php");
         exit;
     }
@@ -66,7 +66,7 @@
             <form action="../controller/aggiuntaCarrello.php" method="post">
                 <div class="container marketing">
                     <?php 
-                        $id = $_GET["mobile"];
+                        $id = $_POST["mobile"];
                         $listaProdotti = getProdotti()->getProdotti();
                         $listaImmagini = getImmagini_prodotti()->getImmagini();
                         for ($i=0; $i < count($listaProdotti); $i++) { 

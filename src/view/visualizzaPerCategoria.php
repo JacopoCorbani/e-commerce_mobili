@@ -76,15 +76,15 @@
         <main>
 
             <div class="album py-5 bg-body-tertiary">
-                <form action="dettaglioMobile.php" method="get">
+                <form action="dettaglioMobile.php" method="POST">
                     <div class="container">
         
                         <div class="row row-cols-1 row-cols-sm-2 row-cols-md-4 g-3">
                             <?php 
                                 $tuttiMobili = false;
                                 $id_cat = "";
-                                if(isset($_GET["categoria"]) && $_GET["categoria"] !== "null"){
-                                    $id_cat = $_GET["categoria"];
+                                if(isset($_POST["categoria"]) && $_POST["categoria"] !== "null"){
+                                    $id_cat = $_POST["categoria"];
                                 }else{
                                     $tuttiMobili = true;
                                 }
