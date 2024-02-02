@@ -1,8 +1,8 @@
 <?php
     include '../model/scritturaDB/scritturaDB.php';
     if(!isset($_SESSION["ID_UTENTE"])){
-        $url = $_SERVER['HTTP_REFERER'];
-        header("Location: $url?error=not_logged");
+        header("Location: ../view/login.html");
+        exit();
     }
 
     if(isset($_POST['id_mobile'])) {

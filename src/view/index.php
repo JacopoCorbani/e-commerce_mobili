@@ -51,9 +51,6 @@
             max-height: 100%;
             object-fit: cover;
         }
-        .card-body {
-            margin-top: auto;
-        }
     </style>
 </head>
 
@@ -167,12 +164,12 @@
                                     if($immaginiCategorie[$j]->getId_categoria() == $listaCategorie[$i]->getId()){
                                         $path = $immaginiCategorie[$j]->getpath_immagine();
                                         echo    "<div class='col'>
-                                                    <div class='card shadow-sm'>
+                                                    <div class='card shadow-sm' style='position: relative;'>
                                                         <img src='../immagini/categorie/$path' alt='immagine categoria'>
-                                                        <div class='card-body'>
-                                                            <p class='card-text'>$cat</p>
-                                                            <div class='d-flex justify-content-between align-items-center mt-auto'>
-                                                                <button type='submit' class='btn btn-sm btn-outline-secondary' name='categoria' value='$id'>Seleziona</button>
+                                                        <div class='card-body mt-auto' style='position: absolute; bottom: 0; width: 100%;'>
+                                                            <p class='card-text'><span class= 'bg-dark' style='padding: 5px; border-radius: 5px;'>$cat</span></p>
+                                                            <div class='d-flex justify-content-between align-items-center'>
+                                                                <button type='submit' class='btn btn-sm btn-outline-secondary btn-dark' name='categoria' value='$id'>Seleziona</button>
                                                             </div>
                                                         </div>
                                                     </div>
