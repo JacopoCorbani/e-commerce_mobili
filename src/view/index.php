@@ -167,7 +167,11 @@
                                                     <div class='card shadow-sm' style='position: relative;'>
                                                         <img src='../immagini/categorie/$path' alt='immagine categoria'>
                                                         <div class='card-body mt-auto' style='position: absolute; bottom: 0; width: 100%;'>
-                                                            <p class='card-text'><span class= 'bg-dark' style='padding: 5px; border-radius: 5px;'>$cat</span></p>
+                                                            <p class='card-text'>
+                                                                <span class= 'bg-dark' style='padding: 5px; border-radius: 5px;'>
+                                                                    $cat
+                                                                </span>
+                                                            </p>
                                                             <div class='d-flex justify-content-between align-items-center'>
                                                                 <button type='submit' class='btn btn-sm btn-outline-secondary btn-dark' name='categoria' value='$id'>Seleziona</button>
                                                             </div>

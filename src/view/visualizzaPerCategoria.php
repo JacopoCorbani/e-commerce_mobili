@@ -105,17 +105,21 @@
                                         }
 
                                         echo    "<div class='col'>
-                                                    <div class='card shadow-sm'>
+                                                    <div class='card shadow-sm' style='position: relative;'>
                                                         <img src='../immagini/prodotti/$path' alt='immagine prodotto'>
-                                                        <div class='card-body'>
+                                                        <div class='card-body mt-auto' style='position: absolute; bottom: 0; width: 100%;'>
                                                             <p class='card-text'>
-                                                                $nome
+                                                                <span  class= 'bg-dark' style='padding: 5px; border-radius: 5px;'>
+                                                                    $nome
+                                                                </span>
                                                             </p>
                                                             <div class='d-flex justify-content-between align-items-center mt-auto'>
-                                                                <div class='btn-group'>
-                                                                    <button type='submit' class='btn btn-sm btn-outline-secondary' name='mobile' value='$id'>Visualizza</button>
-                                                                </div>
-                                                                <small class='text-body-secondary'>$prezzo €</small>
+                                                                <button type='submit' class='btn btn-sm btn-outline-secondary btn-dark' name='mobile' value='$id'>Visualizza</button>
+                                                                <small class='text-body-secondary'>
+                                                                    <span  class= 'bg-dark' style='padding: 5px; border-radius: 5px;'>
+                                                                        $prezzo €
+                                                                    </span>
+                                                                </small>
                                                             </div>
                                                         </div>
                                                     </div>
