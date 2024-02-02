@@ -41,4 +41,14 @@
 
         $conn->close();
     }
+    function rimuoviDalCarrello($id_mobile){
+        global $conn;
+        $id_utente = $_SESSION["ID_UTENTE"];
+        foreach ($id_mobile as $mob) {
+            $query = "DELETE dettaglio_carrello FROM dettaglio_carrello
+            INNER JOIN carrello ON dettaglio_carrello.id_carrello = carrello.id
+            WHERE carrello.id_utente = $id_utente AND dettaglio_carrello.id_prodotto = $mob";
+            $conn->query($query);
+        }
+    }
 ?>

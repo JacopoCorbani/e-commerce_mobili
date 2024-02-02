@@ -1,7 +1,7 @@
 <?php
     error_reporting(E_ALL & ~E_NOTICE);
     session_start();
-    include '../model/letturaDB/letturaDB.php';
+    include '../controller/letturaDati.php';
     //var_dump(getCategorie()->getCategorie());
 ?>
 <!doctype html>
@@ -76,7 +76,7 @@
                                         $nome
                                     </a>";
                             echo    "<ul class='dropdown-menu text-small'>
-                                        <li><a class='dropdown-item' href='#'>Carrello</a></li>
+                                        <li><a class='dropdown-item' href='./visualizzaCarrello.php'>Carrello</a></li>
                                         <li><a class='dropdown-item' href='#'>Ordini</a></li>
                                         <li><a class='dropdown-item' href='#'>Profilo</a></li>";
                             if($_SESSION["RUOLO"] === "ADMIN"){
@@ -110,7 +110,7 @@
                     </svg>
                     <div class="container">
                         <div class="carousel-caption text-start">
-                            <h1 class="testo_carousel">Ecommerce Mobili</h1>
+                            <h1 class="testo_carousel">E-commerce Mobili</h1>
                         </div>
                     </div>
                 </div>
@@ -155,8 +155,8 @@
                     <div class="row row-cols-1 row-cols-sm-2 row-cols-md-4 g-3">
                         <?php 
                             
-                            $listaCategorie = getCategorie()->getCategorie();
-                            $immaginiCategorie = getImmagini_categorie()->getImmagini();
+                            $listaCategorie = selezionaCategorie();
+                            $immaginiCategorie = selezionaImmaginiCategorie();
                             for ($i=0; $i < count($listaCategorie); $i++) {
                                 $id = $listaCategorie[$i]->getId();
                                 $cat = $listaCategorie[$i]->getCategoria();

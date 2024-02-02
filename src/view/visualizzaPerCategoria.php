@@ -1,7 +1,7 @@
 <?php
     error_reporting(E_ALL & ~E_NOTICE);
     session_start();
-    include '../model/letturaDB/letturaDB.php';
+    include '../controller/letturaDati.php';
 ?>
 <!DOCTYPE html>
 <html lang="en" data-bs-theme="dark">
@@ -54,7 +54,7 @@
                                             $nome
                                         </a>";
                                 echo    "<ul class='dropdown-menu text-small'>
-                                            <li><a class='dropdown-item' href='#'>Carrello</a></li>
+                                            <li><a class='dropdown-item' href='./visualizzaCarrello.php'>Carrello</a></li>
                                             <li><a class='dropdown-item' href='#'>Ordini</a></li>
                                             <li><a class='dropdown-item' href='#'>Profilo</a></li>";
                                 if($_SESSION["RUOLO"] === "ADMIN"){
@@ -88,8 +88,8 @@
                                 }else{
                                     $tuttiMobili = true;
                                 }
-                                $listaProdotti = getProdotti()->getProdotti();
-                                $listaImmagini = getImmagini_prodotti()->getImmagini();
+                                $listaProdotti = selezionaProdotti();
+                                $listaImmagini = selezionaImmaginiProdotti();
                                 //da modificare
                                 for ($i=0; $i < count($listaProdotti); $i++) {
                                     $id = $listaProdotti[$i]->getId();

@@ -2,7 +2,7 @@
     error_reporting(E_ALL & ~E_NOTICE);
     session_start();
     include '../controller/letturaDati.php';
-    if(!isset($_POST["mobile"])){
+    if(!isset($_SESSION["ID_UTENTE"])){
         header("Location: ./index.php");
         exit;
     }
@@ -63,19 +63,33 @@
         </header>
         <!-- <img src="../immagini/user_image/user.jpg" alt=""> -->
         <main>
+            
             <form action="../controller/gestioneCarrello.php" method="post">
                 <div class="container marketing">
+                    <div style="text-align: center"><h1>Carrello</h1></div>
+                    <hr class='featurette-divider'>
+                    
                     <?php 
-                        $id = $_POST["mobile"];
+                        $id_utente = $_SESSION["ID_UTENTE"];
                         $listaProdotti = selezionaProdotti();
                         $listaImmagini = selezionaImmaginiProdotti();
-                        for ($i=0; $i < count($listaProdotti); $i++) { 
-                            if($listaProdotti[$i]->getId() == $id){
-                                $nome = $listaProdotti[$i]->getNome();
-                                $descrizione = $listaProdotti[$i]->getDescrizione();
-                                $prezzo = $listaProdotti[$i]->getPrezzo(); 
-                                $path = "";
-                                echo   "<div class='row featurette'>
+                        $dettagliCarrello = selezionaDettagliCarrello($id_utente);
+                        $totale = 0;
+                        // var_dump($dettagliCarrello);
+                        // var_dump($listaProdotti);
+                        for ($i=0; $i < count($dettagliCarrello); $i++) { 
+                            for ($j=0; $j < count($listaProdotti); $j++) { 
+                                //echo $dettagliCarrello[$i]->getIdProdotto();
+                                $id_rimuovere = array();
+                                if(($dettagliCarrello[$i]->getIdProdotto() == $listaProdotti[$j]->getId()) && $listaProdotti[$j]->getIdProdotto() == NULL){
+                                    $id = $listaProdotti[$j]->getId();
+                                    $id_rimuovere[] = $id;
+                                    $nome = $listaProdotti[$j]->getNome();
+                                    $descrizione = $listaProdotti[$j]->getDescrizione();
+                                    $prezzo = $listaProdotti[$j]->getPrezzo(); 
+                                    $totale += $prezzo;
+                                    $path = "";
+                                    echo   "<div class='row featurette'>
                                             <div class='col-md-7 order-md-2'>
                                                 <h2 class='featurette-heading fw-normal lh-1'>
                                                     $nome
@@ -91,48 +105,57 @@
                                                         <div class='list-group'>";
                                                         
                                                         
-                                                    
-                                                for ($i=0; $i < count($listaProdotti); $i++) {
-                                                    if($listaProdotti[$i]->getIdProdotto() == $id){
-                                                        $id_accessorio = $listaProdotti[$i]->getId();
-                                                        $nome = $listaProdotti[$i]->getNome();
-                                                        $prezzo = $listaProdotti[$i]->getPrezzo(); 
-                                                        echo "  <label class='list-group-item d-flex gap-2'>
-                                                                    <input class='form-check-input flex-shrink-0' type='checkbox' name='accessori[]' value='$id_accessorio'>
-                                                                    <span>
-                                                                        $nome
-                                                                        <small class='d-block text-body-secondary'>$prezzo €</small>
-                                                                    </span>
-                                                                </label>";
+                                                for ($z=0; $z < count($dettagliCarrello); $z++) { 
+                                                    for ($k=0; $k < count($listaProdotti); $k++) {
+                                                        if(($listaProdotti[$k]->getIdProdotto() == $id) && ($dettagliCarrello[$z]->getIdProdotto() == $listaProdotti[$k]->getId())){
+                                                            $id_accessorio = $listaProdotti[$k]->getId();
+                                                            $id_rimuovere[] = $id_accessorio;
+                                                            $nome = $listaProdotti[$k]->getNome();
+                                                            $prezzo = $listaProdotti[$k]->getPrezzo(); 
+                                                            echo "  <label class='list-group-item d-flex gap-2'>
+                                                                        <span>
+                                                                            $nome
+                                                                            <small class='d-block text-body-secondary'>$prezzo €</small>
+                                                                        </span>
+                                                                    </label>";
+                                                            $totale += $prezzo;
+                                                        }
                                                     }
+                                                }
+                                                $str = "";
+                                                foreach ($id_rimuovere as $ID) {
+                                                    $str .= $ID.';';
                                                 }
                                         echo   "        </div>
                                                     </div>
                                                 </p>
                                                 <p class='lead'>
-                                                    <button type='submit' class='btn btn-sm btn-outline-secondary' name='id_mobile' value='$id'>Aggiungi al carrello</button>
+                                                    <button type='submit' class='btn btn-sm btn-outline-secondary' name='rimuovere_mobile[]' value='$str'>Togli dal carrello</button>
                                                 </p>
                                             </div>
                                             <div class='col-md-5 order-md-1'>";
-                                for ($j=0; $j < count($listaImmagini); $j++) { 
-                                    if($listaImmagini[$j]->getId_prodotti() == $id){
-                                        $path = $listaImmagini[$j]->getpath_immagine();
+                                for ($y=0; $y < count($listaImmagini); $y++) { 
+                                    if($listaImmagini[$y]->getId_prodotti() == $id){
+                                        $path = $listaImmagini[$y]->getpath_immagine();
                                         echo    "<img src='../immagini/prodotti/$path' width='500px' alt=''>";
                                     }
                                 }
                                 echo    "</div>
                                     </div>";
-                                
+                                    echo "<hr class='featurette-divider'>";
+                                }
                             }
                         }
+                        echo "<div style='text-align: center'><h1>Totale: $totale €</h1></div>";
                     ?>
+
                 </div>
             </form>
         </main>
 
         <footer class="text-body-secondary py-5">
             <div class="container">
-                <p class="mb-1">ecommerce CasaArredo &copy;</p>
+                <p class="mb-1">e-commerce CasaArredo &copy;</p>
             </div>
         </footer>
     </body>

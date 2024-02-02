@@ -163,7 +163,7 @@ function getCarrello($id_utente)
     $risultato = $conn->query($query);
     if ($risultato->num_rows > 0) {
         while ($car = $risultato->fetch_assoc()) {
-            $carrello = new Carrello($car["id"], $car["id_prodotto"], $car["quantita_prodotto"], $car["id_utente"]);
+            $carrello = new Carrello($car["id"], $car["id_utente"]);
             return $carrello;
         }
     }
@@ -172,11 +172,11 @@ function getDettaglioCarrello($id_utente)
 {
     global $conn;
     $dettaglioCarrello = new DettaglioCarrelloCollection();
-    $query = "SELECT * FROM carrello_prodotti INNER JOIN carrello ON carrello_prodotti.id_carrello = carrello.id WHERE carrello.id = $id_utente";
+    $query = "SELECT * FROM dettaglio_carrello INNER JOIN carrello ON dettaglio_carrello.id_carrello = carrello.id WHERE carrello.id_utente = $id_utente";
     $risultato = $conn->query($query);
     if ($risultato->num_rows > 0) {
         while ($car = $risultato->fetch_assoc()) {
-            $dettaglioCarrello->aggiungiDettaglioCarrello(new DettaglioCarrello($car["id"], $car["id_prodotto"], $car["quantita_prodotto"], $car["id_utente"]));
+            $dettaglioCarrello->aggiungiDettaglioCarrello(new DettaglioCarrello($car["id"], $car["id_carrello"], $car["id_prodotto"], $car["quantita_prodotto"]));
         }
     }
     return $dettaglioCarrello;
