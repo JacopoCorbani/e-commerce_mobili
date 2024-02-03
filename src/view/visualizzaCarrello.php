@@ -95,9 +95,6 @@
                                                     $nome
                                                 </h2>
                                                 <p class='lead'>
-                                                    $descrizione
-                                                </p>
-                                                <p class='lead'>
                                                     $prezzo €
                                                 </p>
                                                 <p class='lead'>
@@ -137,7 +134,7 @@
                                 for ($y=0; $y < count($listaImmagini); $y++) { 
                                     if($listaImmagini[$y]->getId_prodotti() == $id){
                                         $path = $listaImmagini[$y]->getpath_immagine();
-                                        echo    "<img src='../immagini/prodotti/$path' width='500px' alt=''>";
+                                        echo    "<img src='../immagini/prodotti/$path' width='300px' alt=''>";
                                     }
                                 }
                                 echo    "</div>
@@ -146,7 +143,13 @@
                                 }
                             }
                         }
-                        echo "<div style='text-align: center'><h1>Totale: $totale €</h1></div>";
+                        echo "  <div style='text-align: center'>";
+                                if($totale != 0){
+                                    echo "<h1>Totale: $totale €</h1><button type='button' class='btn btn-lg btn-outline-primary'>Ordina</button>";
+                                }else{
+                                    echo "<h1>Il carrello è vuoto</h1><a href='./visualizzaPerCategoria.php'><button type='button' class='btn btn-lg btn-outline-primary'>Continua ad acquistare</button></a>";
+                                }
+                        echo "  </div>";
                     ?>
 
                 </div>
