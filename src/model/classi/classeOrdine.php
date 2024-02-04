@@ -1,8 +1,8 @@
 <?php
 class StatusOrdine
 {
-    public $id;
-    public $status_ordine;
+    private $id;
+    private $status_ordine;
 
     public function __construct($id, $status_ordine)
     {
@@ -37,9 +37,12 @@ class StatusOrdine
 
 class Ordine
 {
-    public $id;
-    public $id_utente;
-    public $id_status;
+    private $id;
+    private $id_utente;
+    private $id_status;
+    private $costo_consegna;
+    private $data_ordine;
+    private $id_indirizzo;
 
     public function __construct($id, $id_utente, $id_status)
     {
@@ -77,6 +80,36 @@ class Ordine
     public function setIdStatus($id_status): self
     {
         $this->id_status = $id_status;
+
+        return $this;
+    }
+    public function getCostoConsegna()
+    {
+        return $this->costo_consegna;
+    }
+    public function setCostoConsegna($costo_consegna): self
+    {
+        $this->costo_consegna = $costo_consegna;
+
+        return $this;
+    }
+    public function getDataOrdine()
+    {
+        return $this->data_ordine;
+    }
+    public function setDataOrdine($data_ordine): self
+    {
+        $this->data_ordine = $data_ordine;
+
+        return $this;
+    }
+    public function getIdIndirizzo()
+    {
+        return $this->id_indirizzo;
+    }
+    public function setIdIndirizzo($id_indirizzo): self
+    {
+        $this->id_indirizzo = $id_indirizzo;
 
         return $this;
     }

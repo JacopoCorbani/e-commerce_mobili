@@ -145,7 +145,7 @@
                         }
                         echo "  <div style='text-align: center'>";
                                 if($totale != 0){
-                                    echo "<h1>Totale: $totale €</h1><button type='button' class='btn btn-lg btn-outline-primary'>Ordina</button>";
+                                    echo "<h1>Totale: $totale €</h1><button type='button' class='btn btn-lg btn-outline-primary' data-bs-toggle='modal' data-bs-target='#exampleModal'>Ordina</button>";
                                 }else{
                                     echo "<h1>Il carrello è vuoto</h1><a href='./visualizzaPerCategoria.php'><button type='button' class='btn btn-lg btn-outline-primary'>Continua ad acquistare</button></a>";
                                 }
@@ -155,6 +155,81 @@
                 </div>
             </form>
         </main>
+        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-scrollable">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="exampleModalLabel">Riepilogo Ordine</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <form action="" method="post">
+                        <div class="modal-body">
+                            <label class='col-form-label'>Prodotti:</label>
+                            <?php 
+                                $str = "";
+                                $id_utente = $_SESSION["ID_UTENTE"];
+                                $listaProdotti = selezionaProdotti();
+                                $dettagliCarrello = selezionaDettagliCarrello($id_utente);
+                                $parziale = 0;
+                                for ($i=0; $i < count($dettagliCarrello); $i++) { 
+                                    for ($j=0; $j < count($listaProdotti); $j++) { 
+                                        if(($dettagliCarrello[$i]->getIdProdotto() == $listaProdotti[$j]->getId())){
+                                            if($listaProdotti[$j]->getIdProdotto() != NULL){
+                                                $str = ">";
+                                            }else{
+                                                $str = "";
+                                            }
+                                            $id = $listaProdotti[$j]->getId();
+                                            $nome = $listaProdotti[$j]->getNome();
+                                            $prezzo = $listaProdotti[$j]->getPrezzo(); 
+                                            $parziale += $prezzo;
+                                            echo   "<div class='mb-3'>
+                                                        <div style='display: flex; justify-content: space-between'>
+                                                            <div>$str$nome</div>
+                                                            <div>$prezzo €</div>
+                                                        </div>
+                                                    </div>";
+                                        }
+                                    }
+                                }
+                                $consegna = rand(0, 20);
+                                $totale = $consegna + $parziale;
+                                echo   "<div class='mb-3'>
+                                            <div style='display: flex; justify-content: space-between'>
+                                                <div>PARZIALE: </div>
+                                                <div>$parziale €</div>
+                                            </div>
+                                            <div style='display: flex; justify-content: space-between'>
+                                                <div>CONSEGNA: </div>
+                                                <div>$consegna €</div>
+                                            </div>
+                                            <div style='display: flex; justify-content: space-between'>
+                                                <div>TOTALE: </div>
+                                                <div>$totale €</div>
+                                            </div>
+                                        </div>";
+                            ?>
+                            <select class="form-select form-select-sm" name="indirizzo">
+                                <option selected>Seleziona l'indirizzo</option>
+                                <?php 
+                                    $indirizzi = selezionaIndirizzi($id_utente);
+                                    foreach ($indirizzi as $indirizzo) {
+                                        $id_indirizzo = $indirizzo->getId();
+                                        $via = $indirizzo->getVia();
+                                        $citta = $indirizzo->getCitta();
+                                        $stato = $indirizzo->getStato();
+                                        echo "<option value='$id'>$via, $citta, $stato</option>";
+                                    }
+                                ?>
+                            </select>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-primary">Ordina</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
 
         <footer class="text-body-secondary py-5">
             <div class="container">

@@ -4,6 +4,7 @@ include $_SERVER["DOCUMENT_ROOT"] . '/PHP/e-commerce_mobili/src/model/connession
 include $_SERVER["DOCUMENT_ROOT"] . '/PHP/e-commerce_mobili/src/model/collections/classeProdottoCollection.php';
 include $_SERVER["DOCUMENT_ROOT"] . '/PHP/e-commerce_mobili/src/model/collections/classeCarrelloCollection.php';
 include $_SERVER["DOCUMENT_ROOT"] . '/PHP/e-commerce_mobili/src/model/collections/classeOrdiniCollection.php';
+include $_SERVER["DOCUMENT_ROOT"] . '/PHP/e-commerce_mobili/src/model/collections/classeUtenteCollection.php';
 
 $conn = new mysqli($hostname, $username, $password, $dbname);
 if ($conn->connect_error) {
@@ -181,6 +182,17 @@ function getDettaglioCarrello($id_utente)
     }
     return $dettaglioCarrello;
 }
-
+function getIndirizzi($id_utente){
+    global $conn;
+    $indirizzi = new IndirizzoCollection();
+    $query = "SELECT * FROM indirizzi WHERE id_utente = $id_utente";
+    $risultato = $conn->query($query);
+    if ($risultato->num_rows > 0) {
+        while ($indirizzo = $risultato->fetch_assoc()) {
+            $indirizzi->aggiungiIndirizzi(new Indirizzo($indirizzo["id"], $indirizzo["via"], $indirizzo["citta"], $indirizzo["stato"], $id_utente));
+        }
+    }
+    return $indirizzi;
+}
 // $conn->close();
 ?>

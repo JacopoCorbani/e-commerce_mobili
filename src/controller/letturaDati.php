@@ -15,4 +15,7 @@
     function selezionaDettagliCarrello($id){
         return getDettaglioCarrello($id)->getDettaglioCarrello();
     }
+    function selezionaIndirizzi($id){
+        return getIndirizzi($id)->getIndirizzi();
+    }
 ?>
