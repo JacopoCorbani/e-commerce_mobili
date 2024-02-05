@@ -64,71 +64,37 @@
         <!-- <img src="../immagini/user_image/user.jpg" alt=""> -->
         <main>
             
-            <form action="../controller/gestioneCarrello.php" method="post">
+            <form action="../controller/gestioneProfilo.php" method="post">
                 <div class="container marketing">
-                    <div style="text-align: center"><h1>Ordini</h1></div>
+                    <div style="text-align: center"><h1>Profilo</h1></div>
                     <hr class='featurette-divider'>
-                    <?php 
-                        $id_utente = $_SESSION["ID_UTENTE"];
-                        $ordini = selezionaOrdini($id_utente);
-                        for ($i=0; $i < count($ordini); $i++) { 
-                            $id_ordine = $ordini[$i]->getId();
-                            $dettaglio = selezionaDettagliOrdini($id_ordine);
-                            $totale = selezionaTotaleOrdine($id_ordine);
-                            $data = $ordini[$i]->getDataOrdine();
-                            //echo "data-> ".$data;
-                            $indizzo = selezionaIndirizzoOrdine($id_ordine);
-                            $via = $indizzo->getVia();
-                            $citta = $indizzo->getCitta();
-                            $stato = $indizzo->getStato();
-
-                            echo "<div class='card mt-5'>
-                                    <div class='card-header' style='display: flex; justify-content:space-between;'>
-                                        <span>Ordine effettuato il: $data</span>
-                                        <span>Totale $totale €</span>
-                                        <span>Indirizzo: $via, $citta, $stato</span>
-                                        <span>Ordine numero #$id_ordine</span>
-                                    </div>";
-                            
-                            $listaProdotti = selezionaProdottiOrdine($id_ordine);
-                            $listaImmagini = selezionaImmaginiProdotti();
-                            for ($j=0; $j < count($listaProdotti); $j++) { 
-                                $id_prodotto = $listaProdotti[$j]->getId();
-                                //echo $id_prodotto;
-                                $nome = $listaProdotti[$j]->getNome();
-                                $prezzo = $listaProdotti[$j]->getPrezzo();
-                                echo "<div class='card-body'>
-                                        <div class='row featurette'>
-                                            <div class='col-md-3'>";
-                                            if($listaProdotti[$j]->getIdProdotto() == ""){
-                                                for ($k=0; $k < count($listaImmagini); $k++) { 
-                                                    if($listaImmagini[$k]->getId_prodotti() == $id_prodotto){
-                                                        $path = $listaImmagini[$k]->getpath_immagine();
-                                                        echo "<img src='../immagini/prodotti/$path' width='100' class='featurette-image img-fluid mx-auto'>";
-                                                    }
-                                                }
-                                            }else{
-                                                echo "<span>Accessorio</span>";
-                                            }
-                                echo       "</div>
-                                            <div class='col-md-9'>
-                                                <h4 class='featurette-heading fw-normal lh-1'>
-                                                    $nome
-                                                    <small class='d-block text-body-secondary'>$prezzo €</small>
-                                                </h4>
+                    <div class="row row-cols-1 row-cols-sm-2 row-cols-md-4 g-3">
+                        <div class="card m-2" >
+                            <div class="card-body">
+                                <a data-bs-toggle='modal' data-bs-target='#exampleModal'>
+                                    <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 7.8v8.4M7.8 12h8.4m4.8 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/>
+                                    </svg>
+                                </a>
+                            </div>
+                        </div>
+                        <?php 
+                            $id_utente = $_SESSION["ID_UTENTE"];
+                            $indirizzi = selezionaIndirizzi($id_utente);
+                            for ($i=0; $i < count($indirizzi); $i++) { 
+                                $via = $indirizzi[$i]->getVia();
+                                $citta = $indirizzi[$i]->getCitta();
+                                $stato = $indirizzi[$i]->getStato();
+                                echo    "<div class='card m-2'>
+                                            <div class='card-body'>
+                                                <p>$via</p>
+                                                <p>$citta</p>
+                                                <p>$stato</p>
                                             </div>
-                                        </div>
-                                    </div>";
+                                        </div>";
                             }
-                            
-                            $status = selezionaStatusOrdine($id_ordine);
-                            echo "<div class='card-footer' style='display: flex; justify-content:space-between;'>
-                                    <span>Stato ordine: $status</span>
-                                    <a href=''>Annulla ordine</a>
-                                  </div>
-                              </div>";
-                        }
-                    ?>
+                        ?>
+                    </div>
                 </div>
             </form>
         </main>
