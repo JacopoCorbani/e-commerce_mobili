@@ -162,7 +162,7 @@
                         <h1 class="modal-title fs-5" id="exampleModalLabel">Riepilogo Ordine</h1>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
-                    <form action="" method="post">
+                    <form action="../controller/gestioneCarrello.php" method="post">
                         <div class="modal-body">
                             <label class='col-form-label'>Prodotti:</label>
                             <?php 
@@ -202,6 +202,7 @@
                                             <div style='display: flex; justify-content: space-between'>
                                                 <div>CONSEGNA: </div>
                                                 <div>$consegna €</div>
+                                                <input type='hidden' name='costo_consenga' value='$consegna'>
                                             </div>
                                             <div style='display: flex; justify-content: space-between'>
                                                 <div>TOTALE: </div>
@@ -209,28 +210,46 @@
                                             </div>
                                         </div>";
                             ?>
-                            <select class="form-select form-select-sm" name="indirizzo">
-                                <option selected>Seleziona l'indirizzo</option>
-                                <?php 
-                                    $indirizzi = selezionaIndirizzi($id_utente);
-                                    foreach ($indirizzi as $indirizzo) {
-                                        $id_indirizzo = $indirizzo->getId();
-                                        $via = $indirizzo->getVia();
-                                        $citta = $indirizzo->getCitta();
-                                        $stato = $indirizzo->getStato();
-                                        echo "<option value='$id'>$via, $citta, $stato</option>";
-                                    }
-                                ?>
-                            </select>
+                            <div class="input-group">
+                                <select class="form-select form-select-sm" name="indirizzo">
+                                    <option selected>Seleziona l'indirizzo</option>
+                                    <?php 
+                                        $indirizzi = selezionaIndirizzi($id_utente);
+                                        foreach ($indirizzi as $indirizzo) {
+                                            $id_indirizzo = $indirizzo->getId();
+                                            $via = $indirizzo->getVia();
+                                            $citta = $indirizzo->getCitta();
+                                            $stato = $indirizzo->getStato();
+                                            echo "<option value='$id_indirizzo'>$via, $citta, $stato</option>";
+                                        }
+                                    ?>
+                                </select>
+                                <button class="btn btn-outline-secondary" type="button" data-bs-target="#exampleModalToggle2" data-bs-toggle="modal">Aggiungi Indirizzo</button>
+                            </div>
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-primary">Ordina</button>
+                            <button type="submit" class="btn btn-primary">Ordina</button>
                         </div>
                     </form>
                 </div>
             </div>
         </div>
-
+        <div class="modal fade" id="exampleModalToggle2" aria-hidden="true" aria-labelledby="exampleModalToggleLabel2" tabindex="-1">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="exampleModalToggleLabel2">Aggiungi indirizzo</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    Hide this modal and show the first with the button below.
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-primary" data-bs-target="#exampleModal" data-bs-toggle="modal">Aggiungi</button>
+                </div>
+                </div>
+            </div>
+        </div>
         <footer class="text-body-secondary py-5">
             <div class="container">
                 <p class="mb-1">e-commerce CasaArredo &copy;</p>

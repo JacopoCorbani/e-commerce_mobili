@@ -24,6 +24,9 @@
         array_pop($id_rimuovere);
         rimuoviDalCarrello($id_rimuovere);
         header("Location: ../view/visualizzaCarrello.php");
+    }else if(isset($_POST["indirizzo"])){
+        ordina($_POST["indirizzo"], $_POST["costo_consenga"]);
+        header("Location: ../view/visualizzaPerCategoria.php");
     }else {
         header("Location: ../view/index.php");
     }

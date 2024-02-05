@@ -51,4 +51,25 @@
             $conn->query($query);
         }
     }
+    function ordina($indirizzo, $costo_consegna){
+        global $conn;
+        $id_utente = $_SESSION["ID_UTENTE"];
+        $data = date("Y-m-d");
+        $query = "INSERT INTO ordine (id_utente, id_status, costo_consegna, data_ordine, id_indirizzo) VALUES ($id_utente, 1, $costo_consegna, $data, $indirizzo);";
+        $conn->query($query);
+        $id_ordine = $conn->insert_id;
+
+        $query = "SELECT * FROM dettaglio_carrello INNER JOIN carrello ON dettaglio_carrello.id_carrello = carrello.id WHERE carrello.id_utente = $id_utente";
+        $risultato = $conn->query($query);
+        if($risultato->num_rows > 0){
+            while ($dettaglio = $risultato->fetch_assoc()) {
+                $id_prodotto = $dettaglio["id_prodotto"];
+                $quantita = $dettaglio["quantita_prodotto"];
+                $query = "INSERT INTO dettaglio_ordine (id_prodotto, quantita_prodotto, id_ordine) VALUES ($id_prodotto, $quantita, $id_ordine);";
+                $conn->query($query);
+                $query = "DELETE dettaglio_carrello FROM dettaglio_carrello INNER JOIN carrello ON dettaglio_carrello.id_carrello = carrello.id WHERE carrello.id_utente = $id_utente";
+                $conn->query($query);
+            }
+        }
+    }
 ?>
