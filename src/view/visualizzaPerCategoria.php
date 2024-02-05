@@ -55,7 +55,7 @@
                                         </a>";
                                 echo    "<ul class='dropdown-menu text-small'>
                                             <li><a class='dropdown-item' href='./visualizzaCarrello.php'>Carrello</a></li>
-                                            <li><a class='dropdown-item' href='#'>Ordini</a></li>
+                                            <li><a class='dropdown-item' href='./visualizzaOrdini.php'>Ordini</a></li>
                                             <li><a class='dropdown-item' href='#'>Profilo</a></li>";
                                 if($_SESSION["RUOLO"] === "ADMIN"){
                                     echo "<li><hr class='dropdown-divider'></li>";

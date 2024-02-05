@@ -31,7 +31,7 @@
             $this->dettagliOrdineProdotti[] = $dettaglio;
         }
     
-        public function getDettagliOrdineProdotti() {
+        public function getDettagliOrdine() {
             return $this->dettagliOrdineProdotti;
         }
     }

@@ -137,7 +137,7 @@ function getOrdini($id_utente)
     $risultato = $conn->query($query);
     if ($risultato->num_rows > 0) {
         while ($ord = $risultato->fetch_assoc()) {
-            $ordini->aggiungiOrdine(new Ordine($ord["id"], $ord["id_utente"], $ord["id_status"]));
+            $ordini->aggiungiOrdine(new Ordine($ord["id"], $ord["id_utente"], $ord["id_status"], $ord["costo_consegna"], $ord["data_ordine"], $ord["id_indirizzo"]));
         }
     }
     return $ordini;
@@ -156,6 +156,7 @@ function getDettagliOrdine($id_ordine)
             $dettaglioOrdini->aggiungiDettaglioOrdineProdotto(new DettaglioOrdine($dett["id"], $dett["id_prodotto"], $dett["quantita_prodotto"], $dett["id_ordine"]));
         }
     }
+    return $dettaglioOrdini;
 }
 function getCarrello($id_utente)
 {
@@ -193,6 +194,62 @@ function getIndirizzi($id_utente){
         }
     }
     return $indirizzi;
+}
+function getTotaleOrdine($id_ordine){
+    global $conn;
+    $query = "SELECT 
+                SUM(prodotti.prezzo) AS tot
+                FROM prodotti
+                INNER JOIN dettaglio_ordine ON prodotti.id = dettaglio_ordine.id_prodotto
+                INNER JOIN ordine ON dettaglio_ordine.id_ordine = ordine.id
+                WHERE ordine.id = $id_ordine;";
+
+    $risultato = $conn->query($query);
+    if ($risultato->num_rows > 0) {
+        $totale = $risultato->fetch_assoc()["tot"];
+    }
+    return $totale;
+}
+function getIndirizzoOrdine($id_ordine){
+    global $conn;
+    $query = "SELECT * FROM indirizzi INNER JOIN ordine ON indirizzi.id =  ordine.id_indirizzo WHERE ordine.id = $id_ordine;";
+
+    $risultato = $conn->query($query);
+    if ($risultato->num_rows > 0) {
+        while ($i = $risultato->fetch_assoc()) {
+            $indirizzo = new Indirizzo($i["id"], $i["via"], $i["citta"], $i["stato"], $i["id_utente"]);
+        }
+    }
+    return $indirizzo;
+}
+function getStatusOrdine($id_ordine){
+    global $conn;
+    $query = "SELECT status_ordine.status_ordine AS stato
+                FROM status_ordine
+                INNER JOIN ordine ON status_ordine.id = ordine.id_status WHERE ordine.id = $id_ordine;";
+
+    $risultato = $conn->query($query);
+    if ($risultato->num_rows > 0) {
+        return $risultato->fetch_assoc()["stato"];
+    }
+}
+function getProdottiOrdine($id_ordine){
+    global $conn;
+    $prodotti = new ProdottoCollection();
+    $query = "SELECT prodotti.id, nome, descrizione, prezzo, id_categoria, prodotti.id_prodotto FROM prodotti
+                INNER JOIN dettaglio_ordine ON prodotti.id = dettaglio_ordine.id_prodotto
+                INNER JOIN ordine ON dettaglio_ordine.id_ordine = ordine.id
+                WHERE ordine.id = $id_ordine";
+
+    $risultato = $conn->query($query);
+    if ($risultato->num_rows > 0) {
+        while ($prod = $risultato->fetch_assoc()) {
+            //echo $prod["id"];
+            $prodotti->aggiungiProdotto(new Prodotti($prod["id"], $prod["nome"], $prod["descrizione"], $prod["prezzo"], $prod["id_categoria"], $prod["id_prodotto"]));
+        }
+    }
+    //exit();
+    return $prodotti->getProdotti();
 }
 // $conn->close();
 ?>

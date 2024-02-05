@@ -44,7 +44,7 @@ class Ordine
     private $data_ordine;
     private $id_indirizzo;
 
-    public function __construct($id, $id_utente, $id_status)
+    public function __construct($id, $id_utente, $id_status, $costo_consegna, $data_ordine, $id_indirizzo)
     {
         $this->id = $id;
         $this->id_utente = $id_utente;

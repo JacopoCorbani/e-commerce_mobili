@@ -18,4 +18,22 @@
     function selezionaIndirizzi($id){
         return getIndirizzi($id)->getIndirizzi();
     }
+    function selezionaOrdini($id){
+        return getOrdini($id)->getOrdini();
+    }
+    function selezionaDettagliOrdini($id_ordine){
+        return getDettagliOrdine($id_ordine)->getDettagliOrdine();
+    }
+    function selezionaTotaleOrdine($id_ordine){
+        return getTotaleOrdine($id_ordine);
+    }
+    function selezionaIndirizzoOrdine($id_ordine){
+        return getIndirizzoOrdine($id_ordine);
+    }
+    function selezionaStatusOrdine($id_ordine){
+        return getStatusOrdine($id_ordine);
+    }
+    function selezionaProdottiOrdine($id_ordine){
+        return getProdottiOrdine($id_ordine);
+    }
 ?>
