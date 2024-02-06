@@ -72,4 +72,11 @@
             }
         }
     }
+    function aggiungiIndirizzo($via, $citta, $stato){
+        global $conn;
+        $id_utente = $_SESSION["ID_UTENTE"];
+
+        $query = "INSERT INTO indirizzi (via, citta, stato, id_utente) VALUES ('$via', '$citta', '$stato', $id_utente);";
+        $conn->query($query);
+    }
 ?>

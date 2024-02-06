@@ -61,15 +61,47 @@
                 </div>
             </div>
         </header>
-        <!-- <img src="../immagini/user_image/user.jpg" alt=""> -->
         <main>
-            
             <form action="../controller/gestioneProfilo.php" method="post">
                 <div class="container marketing">
                     <div style="text-align: center"><h1>Profilo</h1></div>
                     <hr class='featurette-divider'>
+                    <div class="container">
+                        <div class="row g-2 m-2">
+                            <div class="col-md">
+                                <div class="form-floating">
+                                    <input type="text" class="form-control" id="floatingInputGrid" placeholder="nome" name="nome">
+                                    <label for="floatingInputGrid">Nome</label>
+                                </div>
+                            </div>
+                            <div class="col-md">
+                                <div class="form-floating">
+                                    <input type="text" class="form-control" id="floatingInputGrid" placeholder="cognome" name="cognome">
+                                    <label for="floatingInputGrid">Cognome</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row g-2 m-2">
+                            <div class="col-md">
+                                <div class="form-floating">
+                                    <input type="text" class="form-control" id="floatingInputGrid" placeholder="Nome Utente" name="nome_utente">
+                                    <label for="floatingInputGrid">Nome Utente</label>
+                                </div>
+                            </div>
+                            <div class="col-md">
+                                <div class="form-floating">
+                                    <input type="text" class="form-control" id="floatingInputGrid" placeholder="Password" name="password">
+                                    <label for="floatingInputGrid">Password</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row g-2 m-2">
+                            <button class="btn btn-primary">Modifica</button>
+                        </div>
+                    </div>
+                    <hr class='featurette-divider'>
                     <div class="row row-cols-1 row-cols-sm-2 row-cols-md-4 g-3">
-                        <div class="card m-2" >
+                        <div class="card m-2">
                             <div class="card-body">
                                 <a data-bs-toggle='modal' data-bs-target='#exampleModal'>
                                     <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
@@ -81,15 +113,22 @@
                         <?php 
                             $id_utente = $_SESSION["ID_UTENTE"];
                             $indirizzi = selezionaIndirizzi($id_utente);
-                            for ($i=0; $i < count($indirizzi); $i++) { 
+                            for ($i=0; $i < count($indirizzi); $i++) {
+                                $id_indirizzo =  $indirizzi[$i]->getId();
                                 $via = $indirizzi[$i]->getVia();
                                 $citta = $indirizzi[$i]->getCitta();
                                 $stato = $indirizzi[$i]->getStato();
-                                echo    "<div class='card m-2'>
+                                echo    "<div class='card m-2 p-0'>
+                                            <div class='card-header'>
+                                                <span>Indirizzo #$id_indirizzo</span>
+                                            </div>
                                             <div class='card-body'>
                                                 <p>$via</p>
                                                 <p>$citta</p>
                                                 <p>$stato</p>
+                                            </div>
+                                            <div class='card-footer'>
+                                                <a href=''>Modifica Indirizzo</a>
                                             </div>
                                         </div>";
                             }
@@ -98,6 +137,35 @@
                 </div>
             </form>
         </main>
+        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-scrollable">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="exampleModalLabel">Aggiungi Indirizzo</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <form action="../controller/gestioneUtente.php" method="post">
+                        <div class="modal-body">
+                            <div class="form-floating mb-3">
+                                <input type="text" class="form-control" id="floatingInput" placeholder="Via" name="via">
+                                <label for="floatingInput">Via</label>
+                            </div>
+                            <div class="form-floating mb-3">
+                                <input type="text" class="form-control" id="floatingInput" placeholder="Citta" name="citta">
+                                <label for="floatingInput">citta</label>
+                            </div>
+                            <div class="form-floating mb-3">
+                                <input type="text" class="form-control" id="floatingInput" placeholder="Stato" name="stato">
+                                <label for="floatingInput">Stato</label>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="submit" class="btn btn-primary">Aggiungi</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
         <footer class="text-body-secondary py-5">
             <div class="container">
                 <p class="mb-1">e-commerce CasaArredo &copy;</p>

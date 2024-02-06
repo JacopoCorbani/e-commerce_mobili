@@ -131,9 +131,13 @@ CREATE TABLE if NOT EXISTS ordine(
 	id INT AUTO_INCREMENT PRIMARY KEY,
 	id_utente INT NOT NULL,
 	id_status INT NOT NULL,
+	costo_consegna DOUBLE NOT NULL,
+	data_ordine DATE NOT NULL,
+	id_indirizzo INT NOT NULL,
 	
 	FOREIGN KEY (id_utente) REFERENCES utente(id),
-	FOREIGN KEY (id_status) REFERENCES status_ordine(id)
+	FOREIGN KEY (id_status) REFERENCES status_ordine(id),
+	FOREIGN KEY (id_indirizzo) REFERENCES indirizzi(id)
 );
 CREATE TABLE if NOT EXISTS dettaglio_ordine(
 	id INT AUTO_INCREMENT PRIMARY KEY,
