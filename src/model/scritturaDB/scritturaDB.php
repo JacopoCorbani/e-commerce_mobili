@@ -79,4 +79,9 @@
         $query = "INSERT INTO indirizzi (via, citta, stato, id_utente) VALUES ('$via', '$citta', '$stato', $id_utente);";
         $conn->query($query);
     }
+    function annullaOrdine($id_ordine){
+        global $conn;
+        $query = "UPDATE ordine SET id_status = 6 WHERE id = $id_ordine";
+        $conn->query($query);
+    }
 ?>

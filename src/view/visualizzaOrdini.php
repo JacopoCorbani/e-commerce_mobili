@@ -124,7 +124,9 @@
                             $status = selezionaStatusOrdine($id_ordine);
                             echo "<div class='card-footer' style='display: flex; justify-content:space-between;'>
                                     <span>Stato ordine: $status</span>
-                                    <a href=''>Annulla ordine</a>
+                                    <form action='../controller/gestioneOrdine.php' method='post'>
+                                        <button type='submit' class='btn btn-primary' name='annulla' value='$id_ordine'>Annulla ordine</button>
+                                    </form>
                                   </div>
                               </div>";
                         }

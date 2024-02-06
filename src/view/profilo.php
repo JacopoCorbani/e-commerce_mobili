@@ -65,7 +65,7 @@
             <form action="../controller/gestioneProfilo.php" method="post">
                 <div class="container marketing">
                     <div style="text-align: center"><h1>Profilo</h1></div>
-                    <hr class='featurette-divider'>
+                    <!-- <hr class='featurette-divider'>
                     <div class="container">
                         <div class="row g-2 m-2">
                             <div class="col-md">
@@ -98,7 +98,7 @@
                         <div class="row g-2 m-2">
                             <button class="btn btn-primary">Modifica</button>
                         </div>
-                    </div>
+                    </div> -->
                     <hr class='featurette-divider'>
                     <div class="row row-cols-1 row-cols-sm-2 row-cols-md-4 g-3">
                         <div class="card m-2">
@@ -127,8 +127,9 @@
                                                 <p>$citta</p>
                                                 <p>$stato</p>
                                             </div>
-                                            <div class='card-footer'>
+                                            <div class='card-footer' style='display: flex; justify-content:space-between;'>
                                                 <a href=''>Modifica Indirizzo</a>
+                                                <a href=''>Elimina</a>
                                             </div>
                                         </div>";
                             }
