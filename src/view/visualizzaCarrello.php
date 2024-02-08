@@ -212,7 +212,7 @@
                             ?>
                             <div class="input-group">
                                 <select class="form-select form-select-sm" name="indirizzo">
-                                    <option selected>Seleziona l'indirizzo</option>
+                                    <option selected value="">Seleziona l'indirizzo</option>
                                     <?php 
                                         $indirizzi = selezionaIndirizzi($id_utente);
                                         foreach ($indirizzi as $indirizzo) {
