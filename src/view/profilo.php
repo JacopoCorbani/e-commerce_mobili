@@ -48,7 +48,7 @@
                                             <li><a class='dropdown-item' href='./profilo.php'>Profilo</a></li>";
                                 if($_SESSION["RUOLO"] === "ADMIN"){
                                     echo "<li><hr class='dropdown-divider'></li>";
-                                    echo "<li><a class='dropdown-item' href='#'>Sezione amministratore</a></li>";
+                                    echo "<li><a class='dropdown-item' href='./admin.php'>Sezione amministratore</a></li>";
                                 }
                                 echo        "<li><hr class='dropdown-divider'></li>
                                             <li><a class='dropdown-item' href='../controller/logout.php'>Esci</a></li>
