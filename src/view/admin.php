@@ -135,10 +135,9 @@
                         foreach ($listaProdotti as $prod) {
                             $id = $prod->getId();
                             $nome = $prod->getNome();
-                            $d = $prod->getDescrizione() ?? '""';
-                            $descrizione = str_replace(",", "", $d);
+                            $descrizione = $prod->getDescrizione() ?? '';
                             $prezzo = $prod->getPrezzo();
-                            $id_categoria = $prod->getIdCategoria() ?? '""';
+                            $id_categoria = $prod->getIdCategoria() ?? '';
 
                             $categoria = "Accessiorio";
                             foreach ($listaCategorie as $cat) {
@@ -147,6 +146,15 @@
                                 }
                             }
                             $id_prod = $prod->getIdProdotto() ?? '';
+                            $dati = array(
+                                'id' => $id,
+                                'nome' => $nome,
+                                'descrizione' => $descrizione,
+                                'prezzo' => $prezzo,
+                                'id_categoria' => $id_categoria,
+                                'id_prod' => $id_prod
+                            );
+                            $datiJson = json_encode($dati);
                             echo    "<tr>
                                         <th scope='row'>$id</th>
                                         <td>$nome</td>
@@ -154,8 +162,8 @@
                                         <td>$categoria</td>
                                         <td>$id_prod</td>
                                         <td>
-                                            <button type='button' class='btn btn-dark' data-bs-toggle='modal' data-bs-target='#modalModifica'>Modifica</button>
-                                            <button type='button' class='btn btn-dark' data-bs-toggle='modal' data-bs-target='#modalElimina'>Elimina</button>
+                                            <button type='button' class='btn btn-dark' data-bs-toggle='modal' data-bs-target='#modalModifica' onclick='inserisciDatiModifica($datiJson)'>Modifica</button>
+                                            <button type='button' class='btn btn-dark' data-bs-toggle='modal' data-bs-target='#modalElimina' onclick='inserisciDatiElimina($id)'>Elimina</button>
                                         </td>
                                     </tr>";
                         }
@@ -164,14 +172,116 @@
             </table>
         </div>
         <div id="divCategorie" style="display: none">
-            ciao
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th scope="col">ID</th>
+                        <th scope="col">Nome</th>
+                        <th scope="col">Azioni</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php
+                        $listaCategorie = selezionaCategorie();
+                        foreach ($listaCategorie as $cat) {
+                            $id = $cat->getId();
+                            $categoria = $cat->getCategoria();
+
+                            $dati = array(
+                                'id' => $id,
+                                'cat' => $categoria
+                            );
+                            $datiJson = json_encode($dati);
+                            echo    "<tr>
+                                        <th scope='row'>$id</th>
+                                        <td>$categoria</td>
+                                        <td>
+                                            <button type='button' class='btn btn-dark' data-bs-toggle='modal' data-bs-target='#modalModificaCat' onclick='inserisciDatiModificaCat($datiJson)'>Modifica</button>
+                                            <button type='button' class='btn btn-dark' data-bs-toggle='modal' data-bs-target='#modalEliminaCat' onclick='inserisciDatiEliminaCat($id)'>Elimina</button>
+                                        </td>
+                                    </tr>";
+                        }
+                    ?>
+                </tbody>
+            </table>
+        </div>
         </div>
         <div id="divUtenti" style="display: none">
-            ciao
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th scope="col">ID</th>
+                        <th scope="col">Nome</th>
+                        <th scope="col">Cognome</th>
+                        <th scope="col">Ruolo</th>
+                        <th scope="col">Azioni</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php
+                        $listaUtenti = selezionaUtenti();
+                        foreach ($listaUtenti as $ut) {
+                            $id = $ut->getId();
+                            $nome = $ut->getNome();
+                            $cognome = $ut->getCognome();
+                            $id_ruolo = $ut->getIdRuolo();
+
+                            $dati = array(
+                                'id' => $id,
+                                'nome' => $nome,
+                                'cognome' => $cognome,
+                                'id_ruolo' => $id_ruolo
+                            );
+                            $datiJson = json_encode($dati);
+                            $ruolo = selezionaRuoloUtente($id_ruolo);
+                            echo    "<tr>
+                                        <th scope='row'>$id</th>
+                                        <td>$nome</td>
+                                        <td>$cognome</td>
+                                        <td>$ruolo</td>
+                                        <td>
+                                            <button type='button' class='btn btn-dark' data-bs-toggle='modal' data-bs-target='#modalModificaUtente' onclick='inserisciDatiModificaUtente($datiJson)'>Modifica</button>
+                                        </td>
+                                    </tr>";
+                        }
+                    ?>
+                </tbody>
+            </table>
         </div>
     </main>
     <script>
+        function inserisciDatiModificaUtente(utente){
+            console.log(utente)
+            document.getElementById('inputIdUtente').value = utente.id
+            document.getElementById('inputNomeUtente').value = utente.nome
+            document.getElementById('inputCognomeUtente').value = utente.cognome
+            document.getElementById('selectRuolo').value = utente.id_ruolo
+        }
+        function inserisciDatiModificaCat(categoria) {
+            document.getElementById('inputIdCat').value = categoria.id
+            document.getElementById('inputCat').value = categoria.cat
+        }
+        function inserisciDatiEliminaCat(id){
+            console.log(id);
+            document.getElementById('inputIdEliminaCat').value = id;
+        }
+
+        function inserisciDatiModifica(prodotto){
+            console.log(prodotto);
+            document.getElementById('inputId').value = prodotto.id;
+            document.getElementById('inputNome').value = prodotto.nome;
+            document.getElementById('inputDescrizione').value = prodotto.descrizione;
+            document.getElementById('inputPrezzo').value = prodotto.prezzo;
+            document.getElementById('selectCategoria').value = prodotto.id_categoria;
+            document.getElementById('selectProdotto').value = prodotto.id_prod;
+
+        }
+        function inserisciDatiElimina(id){
+            console.log(id);
+            document.getElementById('inputIdElimina').value = id;
+        }
     </script>
+    <!-- MODAL PER I PRODOTTI -->
     <div class="modal fade" id="modalModifica" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog modal-dialog-scrollable">
             <div class="modal-content">
@@ -180,18 +290,19 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <form action="../controller/gestionePaginaAdmin.php" method="post">
+                    <input id="inputId" name="id" style="display: none">
                     <div class="modal-body">
                         <div class="form-floating mb-3">
                             <input type="text" class="form-control" id="inputNome" placeholder="nome" name="nome">
-                            <label for="floatingInput">Nome</label>
+                            <label for="inputNome">Nome</label>
                         </div>
                         <div class="form-floating mb-3">
-                            <input type="text" class="form-control" id="inputDescrizione" placeholder="descrizione" name="descrizione">
-                            <label for="floatingInput">Descrizione</label>
+                            <textarea class="form-control" placeholder="descrizione" id="inputDescrizione" name="descrizione"></textarea>
+                            <label for="inputDescrizione">Descrizione</label>
                         </div>
                         <div class="form-floating mb-3">
                             <input type="number" class="form-control" id="inputPrezzo" placeholder="prezzo" name="prezzo">
-                            <label for="floatingInput">Prezzo</label>
+                            <label for="inputPrezzo">Prezzo</label>
                         </div>
                         <div class="form-floating mb-3">
                             <select class="form-select form-select-sm" name="categoria" id="selectCategoria">
@@ -217,6 +328,109 @@
                                         if($prod->getIdProdotto() == ""){
                                             echo "<option value='$id_prod'>$prodotto</option>";
                                         }
+                                    }
+                                ?>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary">Modifica</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    
+    <div class="modal fade" id="modalElimina" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5">Elimina prdotto</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form action="../controller/gestionePaginaAdmin.php" method="post">
+                <input id="inputIdElimina" name="idElimina" style="display: none">
+                <div class="modal-body">
+                    Sei sicuro di voler eliminare il prodotto?
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary" data-bs-target="#exampleModal" data-bs-toggle="modal">Elimina</button>
+                </div>
+            </form>
+            </div>
+        </div>
+    </div>
+    <!-- MODAL PER LE CATEGORIE -->
+    <div class="modal fade" id="modalModificaCat" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-scrollable">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">Modifica Prodotto</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form action="../controller/gestionePaginaAdmin.php" method="post">
+                    <input id="inputIdCat" name="inputIdCat" style="display: none">
+                    <div class="modal-body">
+                        <div class="form-floating mb-3">
+                            <input type="text" class="form-control" id="inputCat" placeholder="nome" name="inputCat">
+                            <label for="inputNome">Nome</label>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary">Modifica</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="modalEliminaCat" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5">Elimina categoria</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form action="../controller/gestionePaginaAdmin.php" method="post">
+                <input id="inputIdEliminaCat" name="idEliminaCat" style="display: none">
+                <div class="modal-body">
+                    Sei sicuro di voler eliminare la categoria?
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary" data-bs-target="#exampleModal" data-bs-toggle="modal">Elimina</button>
+                </div>
+            </form>
+            </div>
+        </div>
+    </div>
+    <!-- MODAL PER UTENTI -->
+    <div class="modal fade" id="modalModificaUtente" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-scrollable">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">Modifica Utente</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form action="../controller/gestionePaginaAdmin.php" method="post">
+                    <input id="inputIdUtente" name="inputIdUtente" style="display: none">
+                    <div class="modal-body">
+                        <div class="form-floating mb-3">
+                            <input type="text" class="form-control" id="inputNomeUtente" placeholder="nome" name="inputNomeUtente">
+                            <label for="inputNomeUtente">Nome</label>
+                        </div>
+                        <div class="form-floating mb-3">
+                            <input type="text" class="form-control" id="inputCognomeUtente" placeholder="cognome" name="inputCognomeUtente">
+                            <label for="inputCognomeUtente">Cognome</label>
+                        </div>
+                        <div class="form-floating mb-3">
+                            <select class="form-select form-select-sm" name="id_ruolo" id="selectRuolo">
+                                <option selected value="">Seleziona il ruolo</option>
+                                <?php 
+                                    $listaRuoli = selezionaRuoli();
+                                    foreach ($listaRuoli as $r) {
+                                        $id_ruolo = $r->getId();
+                                        $ruolo = $r->getRuolo();
+                                        echo "<option value='$id_ruolo'>$ruolo</option>";
                                     }
                                 ?>
                             </select>

@@ -84,4 +84,29 @@
         $query = "UPDATE ordine SET id_status = 6 WHERE id = $id_ordine";
         $conn->query($query);
     }
+    function modificaProdotto($id, $nome, $descrizione, $prezzo, $categoria, $id_prodotto){
+        global $conn;
+
+        $descrizione = $descrizione == '' ? 'null' : $descrizione;
+        $categoria = $categoria == '' ? 'null' : $categoria;
+        $id_prodotto = $id_prodotto == '' ? 'null' : $id_prodotto;
+
+        $query = "UPDATE prodotti SET nome = '$nome', descrizione = '$descrizione', prezzo = $prezzo, id_categoria = $categoria, id_prodotto = $id_prodotto WHERE id = $id";
+        $conn->query($query);
+    }
+    function eliminaProdotto($id){
+        global $conn;
+        $query = "DELETE prodotti FROM prodotti WHERE id = $id";
+        $conn->query($query);
+    }
+    function modificaCategoria($id, $categoria){
+        global $conn;
+        $query = "UPDATE categoria SET categoria = '$categoria' WHERE id = $id";
+        $conn->query($query);
+    }
+    function modificaUtente($id, $nome, $cognome, $id_ruolo){
+        global $conn;
+        $query = "UPDATE utente SET nome = '$nome', cognome = '$cognome', id_ruolo = $id_ruolo WHERE id = $id";
+        $conn->query($query);
+    }
 ?>

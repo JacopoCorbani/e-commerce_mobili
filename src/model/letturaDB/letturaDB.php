@@ -251,5 +251,43 @@ function getProdottiOrdine($id_ordine){
     //exit();
     return $prodotti->getProdotti();
 }
+function getUtenti(){
+    global $conn;
+    $utenti = new UtenteCollection();
+    $query = "SELECT * FROM utente";
+
+    $risultato = $conn->query($query);
+    if ($risultato->num_rows > 0) {
+        while ($ut = $risultato->fetch_assoc()) {
+            //echo $ut["id"];
+            $utenti->aggiungiUtente(new Utente($ut["id"], $ut["nome"], $ut["cognome"], $ut["id_ruolo"]));
+        }
+    }
+    //exit();
+    return $utenti;
+}
+function getRuoli(){
+    global $conn;
+    $ruoli = new RuoloCollection();
+    $query = "SELECT * FROM ruolo";
+
+    $risultato = $conn->query($query);
+    if ($risultato->num_rows > 0) {
+        while ($r = $risultato->fetch_assoc()) {
+            //echo $r["id"];
+            $ruoli->aggiungiRuolo(new Ruolo($r["id"], $r["ruolo"]));
+        }
+    }
+    //exit();
+    return $ruoli;
+}
+function getRuoloUtente($id){
+    global $conn;
+    $query = "SELECT * FROM ruolo WHERE id = $id";
+    $risultato = $conn->query($query);
+    if ($risultato->num_rows > 0) {
+        return $risultato->fetch_assoc()["ruolo"];
+    }
+}
 // $conn->close();
 ?>

@@ -36,4 +36,13 @@
     function selezionaProdottiOrdine($id_ordine){
         return getProdottiOrdine($id_ordine);
     }
+    function selezionaUtenti(){
+        return getUtenti()->getUtente();
+    }
+    function selezionaRuoli(){
+        return getRuoli()->getRuoli();
+    }
+    function selezionaRuoloUtente($id){
+        return getRuoloUtente($id);
+    }
 ?>
