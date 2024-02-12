@@ -1,155 +1,195 @@
-CREATE DATABASE if NOT EXISTS ecommerce_mobili;
-USE ecommerce_mobili;
-/*
-CATEGORIA(PK: ID; CATEGORIA)
-PRODOTTI(PK: ID; NOME; DESCRIZIONE; PREZZO; FK: ID_CATEGORIA, FK: ID_PRODOTTO)
-IMMAGINI_PRODOTTI(PK: ID; PATH; FK: ID_PRODOTTO)
-IMMAGINI_CATEGORIE(PK: ID; PATH; FK: ID_CATEGORIA)
-*/
-CREATE TABLE if NOT EXISTS categoria(
-	id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-	categoria VARCHAR(30) NOT NULL
-);
-INSERT INTO categoria(categoria.categoria) VALUES
-	('Divani'),
-	('Letti'),
-	('Illuminazione'),
-	('Tavoli'),
-	('Sedie'),
-	('Armadi'),
-	('Poltrone'),
-	('Credenze'),
-	('Librerie'),
-	('Scaffali'),
-	('Cassettiere'),
-	('Mobili per il bagno'),
-	('Mobili per il giardino');
-	
-CREATE TABLE if NOT EXISTS prodotti(
-	id INT AUTO_INCREMENT PRIMARY KEY,
-	nome VARCHAR(30) NOT NULL,
-	descrizione VARCHAR(250),
-	prezzo DOUBLE NOT NULL,
-	id_categoria INT,
-	id_prodotto INT,
-	FOREIGN KEY (id_categoria) REFERENCES categoria(id),
-	FOREIGN KEY (id_prodotto) REFERENCES prodotti(id)
-);
-CREATE TABLE if NOT EXISTS immagini_prodotti(
-	id INT PRIMARY KEY AUTO_INCREMENT,
-	path_immagine VARCHAR(255) NOT NULL,
-	id_prodotti INT NOT NULL,
-	
-	FOREIGN KEY (id_prodotti) REFERENCES prodotti(id)
-);
-CREATE TABLE if NOT EXISTS immagini_categorie(
-	id INT PRIMARY KEY AUTO_INCREMENT,
-	path_immagine VARCHAR(255) NOT NULL,
-	id_categoria INT NOT NULL,
-	
-	FOREIGN KEY (id_categoria) REFERENCES categoria(id)
-);
-INSERT INTO immagini_categorie(immagini_categorie.path_immagine, immagini_categorie.id_categoria) VALUES 
-	('divano.jpg', 1),
-	('letto.jpg', 2),
-	('illuminazione.jpg', 3),
-	('tavolo.jpg', 4),
-	('sedie.jpg', 5),
-	('armadio.jpg', 6),
-	('poltrona.jpg', 7),
-	('credenza.jpeg', 8),
-	('libreria.jpg', 9),
-	('scaffali.jpg', 10),
-	('cassettiera.jpg', 11),
-	('mobili_bagno.jpg', 12),
-	('mobili_giardino.jpg', 13);
-/*
-RUOLO(PK: ID; RUOLO)
-UTENTE(PK: ID; NOME; COGNOME; FK: ID_RUOLO)
-INDIRIZZI(PK: ID; VIA; CITTA'; STATO; FK: ID_UTENTE)
-CREDENZIALI(PK: ID; NOME_UTENTE; PASSWORD; FK: ID_UTENTE)
-*/
-CREATE TABLE if NOT EXISTS ruolo(
-	id INT PRIMARY KEY AUTO_INCREMENT,
-	ruolo VARCHAR(20) NOT NULL
-);
-INSERT INTO ruolo(ruolo) VALUES ('USER'), ('ADMIN'), ('DELETED');
-CREATE TABLE if NOT EXISTS utente(
-	id INT PRIMARY KEY AUTO_INCREMENT,
-	nome VARCHAR(50) NOT NULL,
-	cognome VARCHAR(50) NOT NULL,
-	id_ruolo INT NOT NULL,
-	
-	FOREIGN KEY (id_ruolo) REFERENCES ruolo(id)
-);
-CREATE TABLE if NOT EXISTS indirizzi(
-	id INT PRIMARY KEY AUTO_INCREMENT,
-	via VARCHAR(50) NOT NULL,
-	citta VARCHAR(50) NOT NULL,
-	stato VARCHAR(50) NOT NULL,
-	id_utente INT NOT NULL,
-	
-	FOREIGN KEY (id_utente) REFERENCES utente(id)	
-);
-CREATE TABLE if NOT EXISTS credenziali(
-	id INT PRIMARY KEY AUTO_INCREMENT,
-	nome_utente VARCHAR(50) NOT NULL UNIQUE,
-	password_utente VARCHAR(60) NOT NULL,
-	id_utente INT NOT NULL,
-	
-	FOREIGN KEY (id_utente) REFERENCES utente(id)
-);
-/*
-CARRELLO(PK:ID; FK: ID_UTENTE)
-DETTAGLIO_CARRELLO(PK: ID; FK: ID_PRODOTTO; QUANTITA'_PRODOTTO; FK: CARRELLO)
-*/
-CREATE TABLE if NOT EXISTS carrello(
-	id INT AUTO_INCREMENT PRIMARY KEY,
-	id_utente INT NOT NULL,
-	
-	FOREIGN KEY (id_utente) REFERENCES utente(id)
-);
-CREATE TABLE if NOT EXISTS dettaglio_carrello(
-	id INT AUTO_INCREMENT PRIMARY KEY,
-	id_carrello INT NOT NULL,
-	id_prodotto INT NOT NULL,
-	quantita_prodotto INT NOT NULL,
+-- --------------------------------------------------------
+-- Host:                         127.0.0.1
+-- Versione server:              10.4.28-MariaDB - mariadb.org binary distribution
+-- S.O. server:                  Win64
+-- HeidiSQL Versione:            12.6.0.6765
+-- --------------------------------------------------------
 
-	FOREIGN KEY (id_prodotto) REFERENCES prodotti(id),
-	FOREIGN KEY (id_carrello) REFERENCES carrello(id)
-);
-/*
-STUTUS(PK:ID; STATUS)
-ORDINE(PK:ID; FK: ID_UTENTE; FK: ID_STATUS)
-DETTAGLIO_ORDINE(PK: ID; FK: ID_PRODOTTO; QUANTITA'_PRODOTTO; FK: ORDINE)
-*/
-CREATE TABLE if NOT EXISTS status_ordine(
-	id INT AUTO_INCREMENT PRIMARY KEY,
-	status_ordine VARCHAR(20) NOT NULL 
-);
-CREATE TABLE if NOT EXISTS ordine(
-	id INT AUTO_INCREMENT PRIMARY KEY,
-	id_utente INT NOT NULL,
-	id_status INT NOT NULL,
-	costo_consegna DOUBLE NOT NULL,
-	data_ordine DATE NOT NULL,
-	id_indirizzo INT NOT NULL,
-	
-	FOREIGN KEY (id_utente) REFERENCES utente(id),
-	FOREIGN KEY (id_status) REFERENCES status_ordine(id),
-	FOREIGN KEY (id_indirizzo) REFERENCES indirizzi(id)
-);
-CREATE TABLE if NOT EXISTS dettaglio_ordine(
-	id INT AUTO_INCREMENT PRIMARY KEY,
-	id_prodotto INT NOT NULL,
-	quantita_prodotto INT NOT NULL,
-	id_ordine INT NOT NULL,
-	
-	FOREIGN KEY (id_prodotto) REFERENCES prodotti(id),
-	FOREIGN KEY (id_ordine) REFERENCES ordine(id)
-);
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET NAMES utf8 */;
+/*!50503 SET NAMES utf8mb4 */;
+/*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
+/*!40103 SET TIME_ZONE='+00:00' */;
+/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
+/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
+/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
-/*
-INSERT INTO utente (nome, cognome, id_ruolo) VALUES ('Jacopo', 'Corbani', 2);
-INSERT INTO credenziali (nome_utente, password_utente, id_utente) VALUES ('jacopocorbani', '$2y$10$EmSbNtztnB7zmUD3ijYob.cq8h5sQbbtZInA1DzWSZYUw.ctKMhv2', 1);
-*/
+
+-- Dump della struttura del database ecommerce_mobili
+CREATE DATABASE IF NOT EXISTS `ecommerce_mobili` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci */;
+USE `ecommerce_mobili`;
+
+-- Dump della struttura di tabella ecommerce_mobili.carrello
+CREATE TABLE IF NOT EXISTS `carrello` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id_utente` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `id_utente` (`id_utente`),
+  CONSTRAINT `carrello_ibfk_1` FOREIGN KEY (`id_utente`) REFERENCES `utente` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- L’esportazione dei dati non era selezionata.
+
+-- Dump della struttura di tabella ecommerce_mobili.categoria
+CREATE TABLE IF NOT EXISTS `categoria` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `categoria` varchar(20) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- L’esportazione dei dati non era selezionata.
+
+-- Dump della struttura di tabella ecommerce_mobili.credenziali
+CREATE TABLE IF NOT EXISTS `credenziali` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `nome_utente` varchar(50) NOT NULL,
+  `password_utente` varchar(60) NOT NULL,
+  `id_utente` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `nome_utente` (`nome_utente`),
+  KEY `id_utente` (`id_utente`),
+  CONSTRAINT `credenziali_ibfk_1` FOREIGN KEY (`id_utente`) REFERENCES `utente` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- L’esportazione dei dati non era selezionata.
+
+-- Dump della struttura di tabella ecommerce_mobili.dettaglio_carrello
+CREATE TABLE IF NOT EXISTS `dettaglio_carrello` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id_carrello` int(11) NOT NULL,
+  `id_prodotto` int(11) NOT NULL,
+  `quantita_prodotto` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `id_prodotto` (`id_prodotto`),
+  KEY `id_carrello` (`id_carrello`),
+  CONSTRAINT `dettaglio_carrello_ibfk_1` FOREIGN KEY (`id_prodotto`) REFERENCES `prodotti` (`id`),
+  CONSTRAINT `dettaglio_carrello_ibfk_2` FOREIGN KEY (`id_carrello`) REFERENCES `carrello` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- L’esportazione dei dati non era selezionata.
+
+-- Dump della struttura di tabella ecommerce_mobili.dettaglio_ordine
+CREATE TABLE IF NOT EXISTS `dettaglio_ordine` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id_prodotto` int(11) NOT NULL,
+  `quantita_prodotto` int(11) NOT NULL,
+  `id_ordine` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `id_prodotto` (`id_prodotto`),
+  KEY `id_ordine` (`id_ordine`),
+  CONSTRAINT `dettaglio_ordine_ibfk_1` FOREIGN KEY (`id_prodotto`) REFERENCES `prodotti` (`id`),
+  CONSTRAINT `dettaglio_ordine_ibfk_2` FOREIGN KEY (`id_ordine`) REFERENCES `ordine` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- L’esportazione dei dati non era selezionata.
+
+-- Dump della struttura di tabella ecommerce_mobili.immagini_categorie
+CREATE TABLE IF NOT EXISTS `immagini_categorie` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `path_immagine` varchar(255) NOT NULL,
+  `id_categoria` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `id_categoria` (`id_categoria`),
+  CONSTRAINT `immagini_categorie_ibfk_1` FOREIGN KEY (`id_categoria`) REFERENCES `categoria` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- L’esportazione dei dati non era selezionata.
+
+-- Dump della struttura di tabella ecommerce_mobili.immagini_prodotti
+CREATE TABLE IF NOT EXISTS `immagini_prodotti` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `path_immagine` varchar(255) NOT NULL,
+  `id_prodotti` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `id_prodotti` (`id_prodotti`),
+  CONSTRAINT `immagini_prodotti_ibfk_1` FOREIGN KEY (`id_prodotti`) REFERENCES `prodotti` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=68 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- L’esportazione dei dati non era selezionata.
+
+-- Dump della struttura di tabella ecommerce_mobili.indirizzi
+CREATE TABLE IF NOT EXISTS `indirizzi` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `via` varchar(50) NOT NULL,
+  `citta` varchar(50) NOT NULL,
+  `stato` varchar(50) NOT NULL,
+  `id_utente` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `id_utente` (`id_utente`),
+  CONSTRAINT `indirizzi_ibfk_1` FOREIGN KEY (`id_utente`) REFERENCES `utente` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- L’esportazione dei dati non era selezionata.
+
+-- Dump della struttura di tabella ecommerce_mobili.ordine
+CREATE TABLE IF NOT EXISTS `ordine` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id_utente` int(11) NOT NULL,
+  `id_status` int(11) NOT NULL,
+  `costo_consegna` int(11) NOT NULL,
+  `data_ordine` date NOT NULL,
+  `id_indirizzo` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `id_utente` (`id_utente`),
+  KEY `id_status` (`id_status`),
+  KEY `id_indirizzo` (`id_indirizzo`),
+  CONSTRAINT `ordine_ibfk_1` FOREIGN KEY (`id_utente`) REFERENCES `utente` (`id`),
+  CONSTRAINT `ordine_ibfk_2` FOREIGN KEY (`id_status`) REFERENCES `status_ordine` (`id`),
+  CONSTRAINT `ordine_ibfk_3` FOREIGN KEY (`id_indirizzo`) REFERENCES `indirizzi` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- L’esportazione dei dati non era selezionata.
+
+-- Dump della struttura di tabella ecommerce_mobili.prodotti
+CREATE TABLE IF NOT EXISTS `prodotti` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `nome` varchar(30) NOT NULL,
+  `descrizione` varchar(250) DEFAULT NULL,
+  `prezzo` double NOT NULL,
+  `id_categoria` int(11) DEFAULT NULL,
+  `id_prodotto` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `id_categoria` (`id_categoria`),
+  KEY `id_prodotto` (`id_prodotto`),
+  CONSTRAINT `prodotti_ibfk_1` FOREIGN KEY (`id_categoria`) REFERENCES `categoria` (`id`),
+  CONSTRAINT `prodotti_ibfk_2` FOREIGN KEY (`id_prodotto`) REFERENCES `prodotti` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=1274 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- L’esportazione dei dati non era selezionata.
+
+-- Dump della struttura di tabella ecommerce_mobili.ruolo
+CREATE TABLE IF NOT EXISTS `ruolo` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `ruolo` varchar(20) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- L’esportazione dei dati non era selezionata.
+
+-- Dump della struttura di tabella ecommerce_mobili.status_ordine
+CREATE TABLE IF NOT EXISTS `status_ordine` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `status_ordine` varchar(30) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- L’esportazione dei dati non era selezionata.
+
+-- Dump della struttura di tabella ecommerce_mobili.utente
+CREATE TABLE IF NOT EXISTS `utente` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `nome` varchar(50) NOT NULL,
+  `cognome` varchar(50) NOT NULL,
+  `id_ruolo` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `id_ruolo` (`id_ruolo`),
+  CONSTRAINT `utente_ibfk_1` FOREIGN KEY (`id_ruolo`) REFERENCES `ruolo` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- L’esportazione dei dati non era selezionata.
+
+/*!40103 SET TIME_ZONE=IFNULL(@OLD_TIME_ZONE, 'system') */;
+/*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;
+/*!40014 SET FOREIGN_KEY_CHECKS=IFNULL(@OLD_FOREIGN_KEY_CHECKS, 1) */;
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40111 SET SQL_NOTES=IFNULL(@OLD_SQL_NOTES, 1) */;

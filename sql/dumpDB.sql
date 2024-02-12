@@ -28,7 +28,7 @@ CREATE TABLE IF NOT EXISTS `carrello` (
   CONSTRAINT `carrello_ibfk_1` FOREIGN KEY (`id_utente`) REFERENCES `utente` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
--- Dump dei dati della tabella ecommerce_mobili.carrello: ~1 rows (circa)
+-- Dump dei dati della tabella ecommerce_mobili.carrello: ~0 rows (circa)
 INSERT INTO `carrello` (`id`, `id_utente`) VALUES
 	(11, 1);
 
@@ -67,7 +67,7 @@ CREATE TABLE IF NOT EXISTS `credenziali` (
   CONSTRAINT `credenziali_ibfk_1` FOREIGN KEY (`id_utente`) REFERENCES `utente` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
--- Dump dei dati della tabella ecommerce_mobili.credenziali: ~1 rows (circa)
+-- Dump dei dati della tabella ecommerce_mobili.credenziali: ~0 rows (circa)
 INSERT INTO `credenziali` (`id`, `nome_utente`, `password_utente`, `id_utente`) VALUES
 	(1, 'jacopocorbani', '$2y$10$EmSbNtztnB7zmUD3ijYob.cq8h5sQbbtZInA1DzWSZYUw.ctKMhv2', 1);
 
@@ -82,9 +82,12 @@ CREATE TABLE IF NOT EXISTS `dettaglio_carrello` (
   KEY `id_carrello` (`id_carrello`),
   CONSTRAINT `dettaglio_carrello_ibfk_1` FOREIGN KEY (`id_prodotto`) REFERENCES `prodotti` (`id`),
   CONSTRAINT `dettaglio_carrello_ibfk_2` FOREIGN KEY (`id_carrello`) REFERENCES `carrello` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
--- Dump dei dati della tabella ecommerce_mobili.dettaglio_carrello: ~0 rows (circa)
+-- Dump dei dati della tabella ecommerce_mobili.dettaglio_carrello: ~2 rows (circa)
+INSERT INTO `dettaglio_carrello` (`id`, `id_carrello`, `id_prodotto`, `quantita_prodotto`) VALUES
+	(19, 11, 2, 1),
+	(20, 11, 1077, 1);
 
 -- Dump della struttura di tabella ecommerce_mobili.dettaglio_ordine
 CREATE TABLE IF NOT EXISTS `dettaglio_ordine` (
@@ -97,9 +100,9 @@ CREATE TABLE IF NOT EXISTS `dettaglio_ordine` (
   KEY `id_ordine` (`id_ordine`),
   CONSTRAINT `dettaglio_ordine_ibfk_1` FOREIGN KEY (`id_prodotto`) REFERENCES `prodotti` (`id`),
   CONSTRAINT `dettaglio_ordine_ibfk_2` FOREIGN KEY (`id_ordine`) REFERENCES `ordine` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
--- Dump dei dati della tabella ecommerce_mobili.dettaglio_ordine: ~9 rows (circa)
+-- Dump dei dati della tabella ecommerce_mobili.dettaglio_ordine: ~12 rows (circa)
 INSERT INTO `dettaglio_ordine` (`id`, `id_prodotto`, `quantita_prodotto`, `id_ordine`) VALUES
 	(1, 1, 1, 3),
 	(2, 1074, 1, 3),
@@ -110,7 +113,9 @@ INSERT INTO `dettaglio_ordine` (`id`, `id_prodotto`, `quantita_prodotto`, `id_or
 	(7, 1077, 1, 3),
 	(8, 3, 1, 3),
 	(9, 1081, 1, 3),
-	(10, 1, 1, 4);
+	(10, 1, 1, 4),
+	(11, 2, 1, 5),
+	(12, 1076, 1, 5);
 
 -- Dump della struttura di tabella ecommerce_mobili.immagini_categorie
 CREATE TABLE IF NOT EXISTS `immagini_categorie` (
@@ -228,11 +233,12 @@ CREATE TABLE IF NOT EXISTS `indirizzi` (
   PRIMARY KEY (`id`),
   KEY `id_utente` (`id_utente`),
   CONSTRAINT `indirizzi_ibfk_1` FOREIGN KEY (`id_utente`) REFERENCES `utente` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- Dump dei dati della tabella ecommerce_mobili.indirizzi: ~1 rows (circa)
 INSERT INTO `indirizzi` (`id`, `via`, `citta`, `stato`, `id_utente`) VALUES
-	(1, 'via Montanara 7', 'Parma', 'Italia', 1);
+	(1, 'via Montanara 7', 'Parma', 'Italia', 1),
+	(2, 'strada martinalla 92', 'alberi di vigatto Parma', 'Italia', 1);
 
 -- Dump della struttura di tabella ecommerce_mobili.ordine
 CREATE TABLE IF NOT EXISTS `ordine` (
@@ -249,12 +255,13 @@ CREATE TABLE IF NOT EXISTS `ordine` (
   CONSTRAINT `ordine_ibfk_1` FOREIGN KEY (`id_utente`) REFERENCES `utente` (`id`),
   CONSTRAINT `ordine_ibfk_2` FOREIGN KEY (`id_status`) REFERENCES `status_ordine` (`id`),
   CONSTRAINT `ordine_ibfk_3` FOREIGN KEY (`id_indirizzo`) REFERENCES `indirizzi` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
--- Dump dei dati della tabella ecommerce_mobili.ordine: ~2 rows (circa)
+-- Dump dei dati della tabella ecommerce_mobili.ordine: ~3 rows (circa)
 INSERT INTO `ordine` (`id`, `id_utente`, `id_status`, `costo_consegna`, `data_ordine`, `id_indirizzo`) VALUES
 	(3, 1, 1, 15, '2024-02-05', 1),
-	(4, 1, 1, 16, '0000-00-00', 1);
+	(4, 1, 6, 16, '0000-00-00', 1),
+	(5, 1, 1, 6, '0000-00-00', 2);
 
 -- Dump della struttura di tabella ecommerce_mobili.prodotti
 CREATE TABLE IF NOT EXISTS `prodotti` (
@@ -271,7 +278,7 @@ CREATE TABLE IF NOT EXISTS `prodotti` (
   CONSTRAINT `prodotti_ibfk_2` FOREIGN KEY (`id_prodotto`) REFERENCES `prodotti` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1274 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
--- Dump dei dati della tabella ecommerce_mobili.prodotti: ~268 rows (circa)
+-- Dump dei dati della tabella ecommerce_mobili.prodotti: ~267 rows (circa)
 INSERT INTO `prodotti` (`id`, `nome`, `descrizione`, `prezzo`, `id_categoria`, `id_prodotto`) VALUES
 	(1, 'Divano Moderno', 'Elegante e confortevole, il divano moderno in pelle aggiunge stile contemporaneo al tuo spazio abitativo.', 1200, 1, NULL),
 	(2, 'Letto Matrimoniale', 'Un letto matrimoniale in legno massello per notti serene, con un design che unisce comfort e estetica moderna.', 800, 2, NULL),
@@ -340,7 +347,7 @@ INSERT INTO `prodotti` (`id`, `nome`, `descrizione`, `prezzo`, `id_categoria`, `
 	(65, 'Sedia da Giardino Moderna', 'Confortevole e moderna, la sedia da giardino moderna in plastica è ideale per momenti di relax all\'aperto.', 40, 5, NULL),
 	(66, 'Armadio a Otto Ante', 'Massimo spazio di archiviazione con stile, grazie all\'armadio a otto ante in legno di faggio.', 1800, 6, NULL),
 	(67, 'Poltrona da Ufficio Classica', 'Elegante e funzionale, la poltrona da ufficio classica in pelle offre comfort e stile nella tua area lavorativa.', 220, 7, NULL),
-	(1073, 'Cuscini Decorativi', NULL, 30, NULL, 1),
+	(1073, 'Cuscini Decorativi', 'null', 35, NULL, 1),
 	(1074, 'Pouf in Pelle', NULL, 100, NULL, 1),
 	(1075, 'Tappeto Moderno', NULL, 80, NULL, 1),
 	(1076, 'Parure di Lenzuola', NULL, 50, NULL, 2),
@@ -358,7 +365,6 @@ INSERT INTO `prodotti` (`id`, `nome`, `descrizione`, `prezzo`, `id_categoria`, `
 	(1088, 'Scatola Organizer in Legno', NULL, 50, NULL, 6),
 	(1089, 'Specchio da Terra Design', NULL, 180, NULL, 6),
 	(1090, 'Appendiabiti Moderno', NULL, 40, NULL, 6),
-	(1091, 'Poggiapiedi Imbottito', NULL, 80, NULL, 7),
 	(1092, 'Coperta Morbida in Pile', NULL, 45, NULL, 7),
 	(1093, 'Cuscino Poggiatesta', NULL, 20, NULL, 7),
 	(1094, 'Tavola da Cucina Pieghevole', NULL, 60, NULL, 8),
@@ -580,11 +586,13 @@ CREATE TABLE IF NOT EXISTS `utente` (
   PRIMARY KEY (`id`),
   KEY `id_ruolo` (`id_ruolo`),
   CONSTRAINT `utente_ibfk_1` FOREIGN KEY (`id_ruolo`) REFERENCES `ruolo` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
--- Dump dei dati della tabella ecommerce_mobili.utente: ~1 rows (circa)
+-- Dump dei dati della tabella ecommerce_mobili.utente: ~3 rows (circa)
 INSERT INTO `utente` (`id`, `nome`, `cognome`, `id_ruolo`) VALUES
-	(1, 'Jacopo', 'Corbani', 2);
+	(1, 'Jacopo', 'Corbani', 2),
+	(2, 'Mario', 'Rossi', 1),
+	(3, 'Mattia', 'Bianchi', 3);
 
 /*!40103 SET TIME_ZONE=IFNULL(@OLD_TIME_ZONE, 'system') */;
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;
