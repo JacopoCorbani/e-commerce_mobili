@@ -109,4 +109,39 @@
         $query = "UPDATE utente SET nome = '$nome', cognome = '$cognome', id_ruolo = $id_ruolo WHERE id = $id";
         $conn->query($query);
     }
+    function aggiungiProdotto($nome, $descrizione, $prezzo, $id_categoria, $id_prodotto){
+        global $conn;
+        $id_categoria = $id_categoria == '' ? 'NULL' : $id_categoria;
+        $id_prodotto = $id_prodotto == '' ? 'NULL' : $id_prodotto;
+
+        $query = "INSERT INTO prodotti(nome, descrizione, prezzo, id_categoria, id_prodotto) VALUES ('$nome',";
+
+        if(isset($descrizione) && !empty($descrizione)) {
+            $query .= " '$descrizione',";
+        } else {
+            $query .= " NULL,";
+        }
+
+        $query .= " $prezzo, $id_categoria, $id_prodotto);";
+
+        $conn->query($query);
+    }
+    function aggiungiCategoria($categoria){
+        global $conn;
+        $query = "INSERT INTO categoria(categoria) VALUES ('$categoria');";
+        $conn->query($query);
+    }
+    function registrazione($nome, $cognome, $utente, $password){
+        global $conn;
+        $query = "INSERT INTO utente(nome, cognome) VALUES ('$nome', '$cognome');";
+        $conn->query($query);
+        $id = $conn->insert_id;
+        $hashed = password_hash($password, PASSWORD_DEFAULT);
+        $query = "INSERT INTO credenziali(nome_utente, password_utente, id_utente) VALUES ('$utente', '$hashed', $id);";
+        $conn->query($query);
+
+        $_SESSION["ID_UTENTE"] = $id;
+        $_SESSION["NOME_COGNOME"] = $nome . ' ' . $cognome;
+        $_SESSION["RUOLO"] = "USER";
+    }
 ?>

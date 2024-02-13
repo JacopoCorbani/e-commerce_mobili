@@ -37,9 +37,9 @@ CREATE TABLE IF NOT EXISTS `categoria` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `categoria` varchar(20) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
--- Dump dei dati della tabella ecommerce_mobili.categoria: ~13 rows (circa)
+-- Dump dei dati della tabella ecommerce_mobili.categoria: ~14 rows (circa)
 INSERT INTO `categoria` (`id`, `categoria`) VALUES
 	(1, 'Divani'),
 	(2, 'Letti'),
@@ -65,11 +65,12 @@ CREATE TABLE IF NOT EXISTS `credenziali` (
   UNIQUE KEY `nome_utente` (`nome_utente`),
   KEY `id_utente` (`id_utente`),
   CONSTRAINT `credenziali_ibfk_1` FOREIGN KEY (`id_utente`) REFERENCES `utente` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
--- Dump dei dati della tabella ecommerce_mobili.credenziali: ~0 rows (circa)
+-- Dump dei dati della tabella ecommerce_mobili.credenziali: ~2 rows (circa)
 INSERT INTO `credenziali` (`id`, `nome_utente`, `password_utente`, `id_utente`) VALUES
-	(1, 'jacopocorbani', '$2y$10$EmSbNtztnB7zmUD3ijYob.cq8h5sQbbtZInA1DzWSZYUw.ctKMhv2', 1);
+	(1, 'jacopocorbani', '$2y$10$EmSbNtztnB7zmUD3ijYob.cq8h5sQbbtZInA1DzWSZYUw.ctKMhv2', 1),
+	(2, 'giovannibruno', '$2y$10$q4fZS82aakEOdUcgnlWZ8ePM8m0GITvy6psTsVRaAiMdSKQ8/.A.K', 4);
 
 -- Dump della struttura di tabella ecommerce_mobili.dettaglio_carrello
 CREATE TABLE IF NOT EXISTS `dettaglio_carrello` (
@@ -125,7 +126,7 @@ CREATE TABLE IF NOT EXISTS `immagini_categorie` (
   PRIMARY KEY (`id`),
   KEY `id_categoria` (`id_categoria`),
   CONSTRAINT `immagini_categorie_ibfk_1` FOREIGN KEY (`id_categoria`) REFERENCES `categoria` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- Dump dei dati della tabella ecommerce_mobili.immagini_categorie: ~13 rows (circa)
 INSERT INTO `immagini_categorie` (`id`, `path_immagine`, `id_categoria`) VALUES
@@ -151,7 +152,7 @@ CREATE TABLE IF NOT EXISTS `immagini_prodotti` (
   PRIMARY KEY (`id`),
   KEY `id_prodotti` (`id_prodotti`),
   CONSTRAINT `immagini_prodotti_ibfk_1` FOREIGN KEY (`id_prodotti`) REFERENCES `prodotti` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=68 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=73 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- Dump dei dati della tabella ecommerce_mobili.immagini_prodotti: ~67 rows (circa)
 INSERT INTO `immagini_prodotti` (`id`, `path_immagine`, `id_prodotti`) VALUES
@@ -276,9 +277,9 @@ CREATE TABLE IF NOT EXISTS `prodotti` (
   KEY `id_prodotto` (`id_prodotto`),
   CONSTRAINT `prodotti_ibfk_1` FOREIGN KEY (`id_categoria`) REFERENCES `categoria` (`id`),
   CONSTRAINT `prodotti_ibfk_2` FOREIGN KEY (`id_prodotto`) REFERENCES `prodotti` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=1274 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=1282 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
--- Dump dei dati della tabella ecommerce_mobili.prodotti: ~267 rows (circa)
+-- Dump dei dati della tabella ecommerce_mobili.prodotti: ~268 rows (circa)
 INSERT INTO `prodotti` (`id`, `nome`, `descrizione`, `prezzo`, `id_categoria`, `id_prodotto`) VALUES
 	(1, 'Divano Moderno', 'Elegante e confortevole, il divano moderno in pelle aggiunge stile contemporaneo al tuo spazio abitativo.', 1200, 1, NULL),
 	(2, 'Letto Matrimoniale', 'Un letto matrimoniale in legno massello per notti serene, con un design che unisce comfort e estetica moderna.', 800, 2, NULL),
@@ -546,7 +547,9 @@ INSERT INTO `prodotti` (`id`, `nome`, `descrizione`, `prezzo`, `id_categoria`, `
 	(1270, 'Sgabello da Bar in Legno', NULL, 50, NULL, 66),
 	(1271, 'Cuscino per Sedia Imbottito', NULL, 20, NULL, 67),
 	(1272, 'Lampada da Tavolo in Vetro', NULL, 30, NULL, 67),
-	(1273, 'Set di Contenitori in Metallo', NULL, 35, NULL, 67);
+	(1273, 'Set di Contenitori in Metallo', NULL, 35, NULL, 67),
+	(1274, 'Materasso ad acqua', 'materasso ad acqua di ottima qualità, realizzato con materiali durevoli e tecnologia avanzata', 500, 2, NULL),
+	(1281, 'Copriletto', NULL, 20, NULL, 2);
 
 -- Dump della struttura di tabella ecommerce_mobili.ruolo
 CREATE TABLE IF NOT EXISTS `ruolo` (
@@ -582,17 +585,40 @@ CREATE TABLE IF NOT EXISTS `utente` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `nome` varchar(50) NOT NULL,
   `cognome` varchar(50) NOT NULL,
-  `id_ruolo` int(11) NOT NULL,
+  `id_ruolo` int(11) NOT NULL DEFAULT 1,
   PRIMARY KEY (`id`),
   KEY `id_ruolo` (`id_ruolo`),
   CONSTRAINT `utente_ibfk_1` FOREIGN KEY (`id_ruolo`) REFERENCES `ruolo` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
--- Dump dei dati della tabella ecommerce_mobili.utente: ~3 rows (circa)
+-- Dump dei dati della tabella ecommerce_mobili.utente: ~4 rows (circa)
 INSERT INTO `utente` (`id`, `nome`, `cognome`, `id_ruolo`) VALUES
 	(1, 'Jacopo', 'Corbani', 2),
 	(2, 'Mario', 'Rossi', 1),
-	(3, 'Mattia', 'Bianchi', 3);
+	(3, 'Mattia', 'Bianchi', 3),
+	(4, 'Giovanni', 'Bruno', 1);
+
+-- Dump della struttura di trigger ecommerce_mobili.aggiungi_immagine_categorie
+SET @OLDTMP_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_ZERO_IN_DATE,NO_ZERO_DATE,NO_ENGINE_SUBSTITUTION';
+DELIMITER //
+CREATE TRIGGER `aggiungi_immagine_categorie` AFTER INSERT ON `categoria` FOR EACH ROW BEGIN
+	INSERT INTO immagini_categorie (path_immagine, id_categoria)
+   VALUES ('placeholder.png', NEW.id);
+END//
+DELIMITER ;
+SET SQL_MODE=@OLDTMP_SQL_MODE;
+
+-- Dump della struttura di trigger ecommerce_mobili.aggiungi_immagine_prodotti
+SET @OLDTMP_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_ZERO_IN_DATE,NO_ZERO_DATE,NO_ENGINE_SUBSTITUTION';
+DELIMITER //
+CREATE TRIGGER `aggiungi_immagine_prodotti` AFTER INSERT ON `prodotti` FOR EACH ROW BEGIN
+	IF NEW.descrizione IS NOT NULL THEN
+        INSERT INTO immagini_prodotti (path_immagine, id_prodotti)
+        VALUES ('placeholder.jpg', NEW.id);
+    END IF;
+END//
+DELIMITER ;
+SET SQL_MODE=@OLDTMP_SQL_MODE;
 
 /*!40103 SET TIME_ZONE=IFNULL(@OLD_TIME_ZONE, 'system') */;
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;

@@ -35,7 +35,7 @@ CREATE TABLE IF NOT EXISTS `categoria` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `categoria` varchar(20) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- L’esportazione dei dati non era selezionata.
 
@@ -49,7 +49,7 @@ CREATE TABLE IF NOT EXISTS `credenziali` (
   UNIQUE KEY `nome_utente` (`nome_utente`),
   KEY `id_utente` (`id_utente`),
   CONSTRAINT `credenziali_ibfk_1` FOREIGN KEY (`id_utente`) REFERENCES `utente` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- L’esportazione dei dati non era selezionata.
 
@@ -91,7 +91,7 @@ CREATE TABLE IF NOT EXISTS `immagini_categorie` (
   PRIMARY KEY (`id`),
   KEY `id_categoria` (`id_categoria`),
   CONSTRAINT `immagini_categorie_ibfk_1` FOREIGN KEY (`id_categoria`) REFERENCES `categoria` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- L’esportazione dei dati non era selezionata.
 
@@ -103,7 +103,7 @@ CREATE TABLE IF NOT EXISTS `immagini_prodotti` (
   PRIMARY KEY (`id`),
   KEY `id_prodotti` (`id_prodotti`),
   CONSTRAINT `immagini_prodotti_ibfk_1` FOREIGN KEY (`id_prodotti`) REFERENCES `prodotti` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=68 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=73 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- L’esportazione dei dati non era selezionata.
 
@@ -153,7 +153,7 @@ CREATE TABLE IF NOT EXISTS `prodotti` (
   KEY `id_prodotto` (`id_prodotto`),
   CONSTRAINT `prodotti_ibfk_1` FOREIGN KEY (`id_categoria`) REFERENCES `categoria` (`id`),
   CONSTRAINT `prodotti_ibfk_2` FOREIGN KEY (`id_prodotto`) REFERENCES `prodotti` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=1274 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=1282 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- L’esportazione dei dati non era selezionata.
 
@@ -180,13 +180,35 @@ CREATE TABLE IF NOT EXISTS `utente` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `nome` varchar(50) NOT NULL,
   `cognome` varchar(50) NOT NULL,
-  `id_ruolo` int(11) NOT NULL,
+  `id_ruolo` int(11) NOT NULL DEFAULT 1,
   PRIMARY KEY (`id`),
   KEY `id_ruolo` (`id_ruolo`),
   CONSTRAINT `utente_ibfk_1` FOREIGN KEY (`id_ruolo`) REFERENCES `ruolo` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- L’esportazione dei dati non era selezionata.
+
+-- Dump della struttura di trigger ecommerce_mobili.aggiungi_immagine_categorie
+SET @OLDTMP_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_ZERO_IN_DATE,NO_ZERO_DATE,NO_ENGINE_SUBSTITUTION';
+DELIMITER //
+CREATE TRIGGER `aggiungi_immagine_categorie` AFTER INSERT ON `categoria` FOR EACH ROW BEGIN
+	INSERT INTO immagini_categorie (path_immagine, id_categoria)
+   VALUES ('placeholder.png', NEW.id);
+END//
+DELIMITER ;
+SET SQL_MODE=@OLDTMP_SQL_MODE;
+
+-- Dump della struttura di trigger ecommerce_mobili.aggiungi_immagine_prodotti
+SET @OLDTMP_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_ZERO_IN_DATE,NO_ZERO_DATE,NO_ENGINE_SUBSTITUTION';
+DELIMITER //
+CREATE TRIGGER `aggiungi_immagine_prodotti` AFTER INSERT ON `prodotti` FOR EACH ROW BEGIN
+	IF NEW.descrizione IS NOT NULL THEN
+        INSERT INTO immagini_prodotti (path_immagine, id_prodotti)
+        VALUES ('placeholder.jpg', NEW.id);
+    END IF;
+END//
+DELIMITER ;
+SET SQL_MODE=@OLDTMP_SQL_MODE;
 
 /*!40103 SET TIME_ZONE=IFNULL(@OLD_TIME_ZONE, 'system') */;
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;

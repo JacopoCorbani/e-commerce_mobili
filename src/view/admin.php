@@ -50,7 +50,7 @@
             <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
 
                 <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
-                    <li><a href="" class="nav-link px-2 link-body-emphasis">CasaArredo</a></li>
+                    <li><a href="./index.php" class="nav-link px-2 link-body-emphasis">CasaArredo</a></li>
                     <li><a href="./visualizzaPerCategoria.php" class="nav-link px-2 link-body-emphasis">Tutti i mobili</a></li>
                 </ul>
                 <!-- <form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3" role="search">
@@ -117,9 +117,67 @@
     </script>
     <main class="container marketing">
         <div id="divProdotti">
-            <table class="table">
+            <div>
+                <form action="../controller/gestionePaginaAdmin.php" method="post">
+                    <div class="modal-body">
+                        <input value="" name="aggiungiProdotto" style="display:none">
+                        <div style="display:flex; justify-content: space-around">
+                            <div class="form-floating mb-3" style="width: 40%;">
+                                <input type="text" class="form-control" id="inputNome" placeholder="nome" name="nome" required>
+                                <label for="inputNome">Nome</label>
+                            </div>
+                            <div class="form-floating mb-3" style="width: 40%;">
+                                <input type="number" class="form-control" id="inputPrezzo" placeholder="prezzo" name="prezzo" required>
+                                <label for="inputPrezzo">Prezzo</label>
+                            </div>
+                            
+                        </div>
+                        <div class="form-floating mb-3" style="width: 90%; margin: 0 auto;">
+                            <textarea class="form-control" placeholder="descrizione" id="inputDescrizione" name="descrizione"></textarea>
+                            <label for="inputDescrizione">Descrizione</label>
+                        </div>
+                        <div style="display:flex; justify-content: space-around">
+                            <div class="form-floating mb-3" style="width: 40%;">
+                                <select class="form-select form-select-sm" name="categoria" id="selectCategoria">
+                                    <option selected value="">Seleziona la categoria</option>
+                                    <?php 
+                                        $listaCategorie = selezionaCategorie();
+                                        foreach ($listaCategorie as $cat) {
+                                            $id_cat = $cat->getId();
+                                            $categoria = $cat->getCategoria();;
+                                            echo "<option value='$id_cat'>$categoria</option>";
+                                        }
+                                    ?>
+                                </select>
+                            </div>
+                            <div class="form-floating mb-3" style="width: 40%;">
+                                <select class="form-select form-select-sm" name="id_prodotto" id="selectProdotto">
+                                    <option selected value="">Seleziona il prodotto</option>
+                                    <?php 
+                                        $listaProdotti = selezionaProdotti();
+                                        foreach ($listaProdotti as $prod) {
+                                            $id_prod = $prod->getId();
+                                            $prodotto = $prod->getNome();
+                                            if($prod->getIdProdotto() == ""){
+                                                echo "<option value='$id_prod'>$prodotto</option>";
+                                            }
+                                        }
+                                    ?>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div style="text-align:center;">
+                        <button type="submit" class="btn btn-primary">Aggiungi</button>
+                    </div>
+                </form>
+            </div>
+            <div style="text-align:right;">
+                <input type="text" id="inputProdotti" onkeyup="ricercaProdotti()" placeholder="Cerca un prodotto" >
+            </div>
+            <table class="table" id="tabellaProdotti">
                 <thead>
-                    <tr>
+                    <tr class="header">
                         <th scope="col">ID</th>
                         <th scope="col">Nome</th>
                         <th scope="col">Prezzo</th>
@@ -170,9 +228,49 @@
                     ?>
                 </tbody>
             </table>
+            <script>
+                function ricercaProdotti() {
+                    var input, filter, table, tr, td, i, txtValue;
+                    input = document.getElementById("inputProdotti");
+                    filter = input.value.toUpperCase();
+                    table = document.getElementById("tabellaProdotti");
+                    tr = table.getElementsByTagName("tr");
+                    for (i = 0; i < tr.length; i++) {
+                        td = tr[i].getElementsByTagName("td")[0];
+                        if (td) {
+                        txtValue = td.textContent || td.innerText;
+                        if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                            tr[i].style.display = "";
+                        } else {
+                            tr[i].style.display = "none";
+                        }
+                        }       
+                    }
+                }
+            </script>
         </div>
+
         <div id="divCategorie" style="display: none">
-            <table class="table">
+            <div>
+                <form action="../controller/gestionePaginaAdmin.php" method="post">
+                    <div>
+                        <input value="" name="aggiungiCategoria" style="display:none">
+                        <div style="display:flex; justify-content: space-around">
+                            <div class="form-floating mb-3" style="width: 40%;">
+                                <input type="text" class="form-control" id="inputNome" placeholder="nome" name="nome" required>
+                                <label for="inputNome">Categoria</label>
+                            </div>
+                            <div>
+                                <button type="submit" class="btn btn-primary btn-lg">Aggiungi</button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div style="text-align:right;">
+                <input type="text" id="inputCategoria" onkeyup="ricercaCategoria()" placeholder="Cerca una categoria" >
+            </div>
+            <table class="table" id="tabellaCategorie">
                 <thead>
                     <tr>
                         <th scope="col">ID</th>
@@ -204,10 +302,33 @@
                     ?>
                 </tbody>
             </table>
+            <script>
+                function ricercaCategoria() {
+                    var input, filter, table, tr, td, i, txtValue;
+                    input = document.getElementById("inputCategoria");
+                    filter = input.value.toUpperCase();
+                    table = document.getElementById("tabellaCategorie");
+                    tr = table.getElementsByTagName("tr");
+                    for (i = 0; i < tr.length; i++) {
+                        td = tr[i].getElementsByTagName("td")[0];
+                        if (td) {
+                        txtValue = td.textContent || td.innerText;
+                        if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                            tr[i].style.display = "";
+                        } else {
+                            tr[i].style.display = "none";
+                        }
+                        }       
+                    }
+                }
+            </script>
         </div>
         </div>
         <div id="divUtenti" style="display: none">
-            <table class="table">
+            <div style="text-align:right;">
+                <input type="text" id="inputUtenti" onkeyup="ricercaUtenti()" placeholder="Cerca un prodotto" >
+            </div>
+            <table class="table" id="tabellaUtenti">
                 <thead>
                     <tr>
                         <th scope="col">ID</th>
@@ -247,6 +368,28 @@
                     ?>
                 </tbody>
             </table>
+            <script>
+                function ricercaUtenti() {
+                    var input, filter, table, tr, td, i, txtValue;
+                    input = document.getElementById("inputUtenti");
+                    filter = input.value.toUpperCase();
+                    table = document.getElementById("tabellaUtenti");
+                    tr = table.getElementsByTagName("tr");
+                    for (i = 0; i < tr.length; i++) {
+                        td_nome = tr[i].getElementsByTagName("td")[0];
+                        td_cognome = tr[i].getElementsByTagName("td")[1];
+                            if (td_nome && td_cognome) {
+                            txtValue_nome = td_nome.textContent || td_nome.innerText;
+                            txtValue_cognome = td_cognome.textContent || td_cognome.innerText;
+                            if ((txtValue_nome.toUpperCase().indexOf(filter) > -1) || (txtValue_cognome.toUpperCase().indexOf(filter) > -1)) {
+                                tr[i].style.display = "";
+                            } else {
+                                tr[i].style.display = "none";
+                            }
+                        }  
+                    }
+                }
+            </script>
         </div>
     </main>
     <script>
@@ -290,7 +433,7 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <form action="../controller/gestionePaginaAdmin.php" method="post">
-                    <input id="inputId" name="id" style="display: none">
+                    <input id="inputIdModifica" name="inputIdModifica" style="display: none">
                     <div class="modal-body">
                         <div class="form-floating mb-3">
                             <input type="text" class="form-control" id="inputNome" placeholder="nome" name="nome">

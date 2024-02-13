@@ -5,8 +5,8 @@
         exit();
     }
 
-    if(isset($_POST['nome']) && isset($_POST['descrizione'])) {
-        modificaProdotto($_POST['id'], $_POST['nome'], $_POST['descrizione'], $_POST['prezzo'], $_POST['categoria'], $_POST['id_prodotto']);
+    if(isset($_POST['inputIdModifica'])) {
+        modificaProdotto($_POST['inputIdModifica'], $_POST['nome'], $_POST['descrizione'], $_POST['prezzo'], $_POST['categoria'], $_POST['id_prodotto']);
         header("Location: ../view/admin.php");
     }else if(isset($_POST["idElimina"])){
         eliminaProdotto($_POST["idElimina"]);
@@ -16,6 +16,12 @@
         header("Location: ../view/admin.php");
     }else if(isset($_POST["inputIdUtente"])){
         modificaUtente($_POST["inputIdUtente"], $_POST["inputNomeUtente"], $_POST["inputCognomeUtente"], $_POST["id_ruolo"]);
+        header("Location: ../view/admin.php");
+    }else if(isset($_POST["aggiungiProdotto"])){
+        aggiungiProdotto($_POST["nome"], $_POST["descrizione"], $_POST["prezzo"], $_POST["categoria"], $_POST["id_prodotto"]);
+        header("Location: ../view/admin.php");
+    }else if(isset($_POST["aggiungiCategoria"])){
+        aggiungiCategoria($_POST["nome"]);
         header("Location: ../view/admin.php");
     }else{
         header("Location: ../view/admin.php");

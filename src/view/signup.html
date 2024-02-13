@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="en" data-bs-theme="dark">
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://getbootstrap.com/docs/5.3/assets/css/docs.css" rel="stylesheet"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.7/css/dataTables.bootstrap5.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <link rel="stylesheet" href="../css/sign-in.css">
+    <title>Registrati all'e-coomerce</title>
+  </head>
+  <body class="d-flex align-items-center py-4 bg-body-tertiary">
+    <main class="form-signin w-100 m-auto">
+      <form action="../controller/gestioneUtente.php" method="POST">
+        <h1 class="h3 mb-3 fw-normal">Inserisce i dati per registrarti!</h1>
+        <div class="form-floating">
+            <input type="text" class="form-control" id="floatingInput" placeholder="Nome" name="nome" required>
+            <label for="floatingInput">Nome</label>
+        </div>
+        <div class="form-floating">
+            <input type="text" class="form-control" id="floatingInput" placeholder="Cognome" name="cognome" required>
+            <label for="floatingInput">Cognome</label>
+        </div>
+        <div class="form-floating">
+          <input type="text" class="form-control" id="floatingInput" placeholder="Nome Utente" name="utente" required>
+          <label for="floatingInput">Nome Utente</label> 
+        </div>
+        <div class="form-floating">
+          <input type="password" class="form-control" id="floatingPassword" placeholder="Password" name="password" required>
+          <label for="floatingPassword">Password</label>
+        </div>
+        <button class="btn btn-primary w-100 py-2" type="submit">Registrati</button>
+        <a href="./login.html">Accedi</a>
+      </form>
+    </main>
+  </body>
+</html>
