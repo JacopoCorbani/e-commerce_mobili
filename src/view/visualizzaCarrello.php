@@ -224,7 +224,7 @@
                                         }
                                     ?>
                                 </select>
-                                <button class="btn btn-outline-secondary" type="button" data-bs-target="#exampleModalToggle2" data-bs-toggle="modal">Aggiungi Indirizzo</button>
+                                <button class="btn btn-outline-secondary" type="button" data-bs-target="#modelAgiungiOrdine" data-bs-toggle="modal">Aggiungi Indirizzo</button>
                             </div>
                         </div>
                         <div class="modal-footer">
@@ -234,19 +234,33 @@
                 </div>
             </div>
         </div>
-        <div class="modal fade" id="exampleModalToggle2" aria-hidden="true" aria-labelledby="exampleModalToggleLabel2" tabindex="-1">
-            <div class="modal-dialog modal-dialog-centered">
+        <div class="modal fade" id="modelAgiungiOrdine" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-scrollable">
                 <div class="modal-content">
-                <div class="modal-header">
-                    <h1 class="modal-title fs-5" id="exampleModalToggleLabel2">Aggiungi indirizzo</h1>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    Hide this modal and show the first with the button below.
-                </div>
-                <div class="modal-footer">
-                    <button class="btn btn-primary" data-bs-target="#exampleModal" data-bs-toggle="modal">Aggiungi</button>
-                </div>
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="exampleModalLabel">Aggiungi Indirizzo</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <form action="../controller/gestioneUtente.php" method="post">
+                        
+                        <div class="modal-body">
+                            <div class="form-floating mb-3">
+                                <input type="text" class="form-control" id="floatingInput" placeholder="Via" name="via">
+                                <label for="floatingInput">Via</label>
+                            </div>
+                            <div class="form-floating mb-3">
+                                <input type="text" class="form-control" id="floatingInput" placeholder="Citta" name="citta">
+                                <label for="floatingInput">citta</label>
+                            </div>
+                            <div class="form-floating mb-3">
+                                <input type="text" class="form-control" id="floatingInput" placeholder="Stato" name="stato">
+                                <label for="floatingInput">Stato</label>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="submit" class="btn btn-primary" name="carrello" value="true">Aggiungi</button>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>

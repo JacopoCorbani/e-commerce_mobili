@@ -65,40 +65,6 @@
             <form action="../controller/gestioneProfilo.php" method="post">
                 <div class="container marketing">
                     <div style="text-align: center"><h1>Profilo</h1></div>
-                    <!-- <hr class='featurette-divider'>
-                    <div class="container">
-                        <div class="row g-2 m-2">
-                            <div class="col-md">
-                                <div class="form-floating">
-                                    <input type="text" class="form-control" id="floatingInputGrid" placeholder="nome" name="nome">
-                                    <label for="floatingInputGrid">Nome</label>
-                                </div>
-                            </div>
-                            <div class="col-md">
-                                <div class="form-floating">
-                                    <input type="text" class="form-control" id="floatingInputGrid" placeholder="cognome" name="cognome">
-                                    <label for="floatingInputGrid">Cognome</label>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row g-2 m-2">
-                            <div class="col-md">
-                                <div class="form-floating">
-                                    <input type="text" class="form-control" id="floatingInputGrid" placeholder="Nome Utente" name="nome_utente">
-                                    <label for="floatingInputGrid">Nome Utente</label>
-                                </div>
-                            </div>
-                            <div class="col-md">
-                                <div class="form-floating">
-                                    <input type="text" class="form-control" id="floatingInputGrid" placeholder="Password" name="password">
-                                    <label for="floatingInputGrid">Password</label>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row g-2 m-2">
-                            <button class="btn btn-primary">Modifica</button>
-                        </div>
-                    </div> -->
                     <hr class='featurette-divider'>
                     <div class="row row-cols-1 row-cols-sm-2 row-cols-md-4 g-3">
                         <div class="card m-2">
@@ -118,6 +84,16 @@
                                 $via = $indirizzi[$i]->getVia();
                                 $citta = $indirizzi[$i]->getCitta();
                                 $stato = $indirizzi[$i]->getStato();
+
+                                $indirizzo = array(
+                                    "id" => $id_indirizzo,
+                                    "via" => $via,
+                                    "citta" => $citta,
+                                    "stato" => $stato,
+                                );
+                                
+                                $json_indirizzo = json_encode($indirizzo);
+
                                 echo    "<div class='card m-2 p-0'>
                                             <div class='card-header'>
                                                 <span>Indirizzo #$id_indirizzo</span>
@@ -128,8 +104,8 @@
                                                 <p>$stato</p>
                                             </div>
                                             <div class='card-footer' style='display: flex; justify-content:space-between;'>
-                                                <a href=''>Modifica Indirizzo</a>
-                                                <a href=''>Elimina</a>
+                                                <a href='#modificaIndirizzo' data-bs-toggle='modal' data-bs-target='#modificaIndirizzoModal' onclick='modifica($json_indirizzo)'>Modifica Indirizzo</a>
+                                                <a href='#eliminaIndirizzo' data-bs-toggle='modal' data-bs-target='#eliminaIndirizzoModal' onclick='cancella($id_indirizzo)'>Elimina</a>
                                             </div>
                                         </div>";
                             }
@@ -167,6 +143,65 @@
                 </div>
             </div>
         </div>
+        <div class="modal fade" id="eliminaIndirizzoModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-scrollable">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="exampleModalLabel">Elimina Indirizzo</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <form action="../controller/gestioneUtente.php" method="post">
+                        <input id="id_elimina" name="id_indirizzo" type="hidden">
+                        <div class="modal-body">
+                            <p>Sei sicuro di voler eliminare l'indirizzo?</p>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="submit" class="btn btn-primary" name="elimina" value="true">Elimina</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="modal fade" id="modificaIndirizzoModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-scrollable">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="exampleModalLabel">Modifica Indirizzo</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <form action="../controller/gestioneUtente.php" method="post">
+                        <input id="id_indirizzo" name="id_indirizzo" type="hidden">
+                        <div class="modal-body">
+                            <div class="form-floating mb-3">
+                                <input type="text" class="form-control" id="ModificaVia" placeholder="Via" name="via">
+                                <label for="floatingInput">Via</label>
+                            </div>
+                            <div class="form-floating mb-3">
+                                <input type="text" class="form-control" id="ModificaCitta" placeholder="Citta" name="citta">
+                                <label for="floatingInput">citta</label>
+                            </div>
+                            <div class="form-floating mb-3">
+                                <input type="text" class="form-control" id="ModificaStato" placeholder="Stato" name="stato">
+                                <label for="floatingInput">Stato</label>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="submit" class="btn btn-primary" name="modifica" value="true">Modifica</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        <script>
+            function modifica(json){
+                document.getElementById('id_indirizzo').value = json.id
+                document.getElementById('ModificaVia').value = json.via;
+                document.getElementById('ModificaCitta').value = json.citta;
+                document.getElementById('ModificaStato').value = json.stato;
+            }
+            function cancella(id){
+                document.getElementById('id_elimina').value = id
+            }
+        </script>
         <footer class="text-body-secondary py-5">
             <div class="container">
                 <p class="mb-1">e-commerce CasaArredo &copy;</p>

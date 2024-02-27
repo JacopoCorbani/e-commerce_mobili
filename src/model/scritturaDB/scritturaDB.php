@@ -72,6 +72,11 @@
             }
         }
     }
+    function modificaIndirizzo($id, $via, $citta, $stato){
+        global $conn;
+        $query = "UPDATE indirizzi SET via='$via', citta='$citta', stato='$stato' WHERE id=$id;";
+        $conn->query($query);
+    }
     function aggiungiIndirizzo($via, $citta, $stato){
         global $conn;
         $id_utente = $_SESSION["ID_UTENTE"];
