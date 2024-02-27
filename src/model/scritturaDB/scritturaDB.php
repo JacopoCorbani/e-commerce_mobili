@@ -72,6 +72,11 @@
             }
         }
     }
+    function eliminaIndirizzo($id){
+        global $conn;
+        $query = "DELETE indirizzi FROM indirizzi WHERE id = $id;";
+        $conn->query($query);
+    }
     function modificaIndirizzo($id, $via, $citta, $stato){
         global $conn;
         $query = "UPDATE indirizzi SET via='$via', citta='$citta', stato='$stato' WHERE id=$id;";

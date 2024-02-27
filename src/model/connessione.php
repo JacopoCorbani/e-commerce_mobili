@@ -1,6 +1,6 @@
 <?php 
     $hostname = "localhost";
     $username = "root";
-    $password = "";
+    $password = "root";
     $dbname = "ecommerce_mobili";
 ?>
